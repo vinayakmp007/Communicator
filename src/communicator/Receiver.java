@@ -9,6 +9,6 @@ package communicator;
  *
  * @author vinayak
  */
-public class Reciever {
+public class Receiver {
     
 }
