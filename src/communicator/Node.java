@@ -21,8 +21,12 @@ return milli_timestamp;
 public void setIdentifier(int i){
 identifier=i;
 }
-public void setITimestamp(long i){
+public void setTimestamp(long i){
 milli_timestamp=i;
 }
+public Node(int i,long j){
+identifier=i;
+milli_timestamp=j;
 
+}
 }

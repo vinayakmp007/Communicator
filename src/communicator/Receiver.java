@@ -8,7 +8,7 @@ package communicator;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-
+import java.util.*;
 
 import com.sun.net.httpserver.HttpServer;
 /**
@@ -19,11 +19,12 @@ public  class Receiver {
     int port_no;
     HttpServer server;
     HeartBeatHandler heartbthand;
-    public Receiver(int port) throws IOException{
-    
+    Map<Integer,Node> node_data;
+    public Receiver(int port, Map<Integer,Node> t) throws IOException{
+        node_data=t;
         port_no=port;
         setServer();
-        heartbthand=new HeartBeatHandler();
+        heartbthand=new HeartBeatHandler(node_data);
         server.createContext("/heartbeat", heartbthand);
         server.setExecutor(null);
         startServer();
