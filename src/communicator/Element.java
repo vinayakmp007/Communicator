@@ -16,6 +16,7 @@ public class Element {
 
     int identifier, input_port_no;                                                //ip might change here
     long heartbeat_in_ms;
+
     String myipaddr;
 
     public Element(int a, int b, long c) throws UnknownHostException {
@@ -28,7 +29,6 @@ arguments
         identifier = a;
         input_port_no = b;
         heartbeat_in_ms = c;
-        myipaddr = InetAddress.getLocalHost().getHostAddress();
 
     }
 

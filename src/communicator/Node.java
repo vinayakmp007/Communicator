@@ -50,10 +50,11 @@ public class Node {
         return input_port;
     }
 
-    public Node(int id, long timestmp, int port) {
+    public Node(int id, long timestmp, int port, String ipaddr) {
         identifier = id;
         milli_timestamp = timestmp;
         input_port = port;
+        ipaddress = ipaddr;
 
     }
 

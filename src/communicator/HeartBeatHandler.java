@@ -5,6 +5,7 @@
  */
 package communicator;
 
+import java.net.HttpURLConnection;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.util.*;
@@ -32,7 +33,7 @@ public class HeartBeatHandler implements HttpHandler, Handler {
     InputStream data_inpstream;
     String req_body, from_id_str, from_id_ipaddr;
     int req_bodysize, from_id_int, from_id_port;
-    JSONObject trailer;
+    JSONArray trailer;
     long time;
     NodePriorityQueue queue;
 
@@ -58,19 +59,27 @@ public class HeartBeatHandler implements HttpHandler, Handler {
 
         }
         req_body = tembuf.toString();
-
+        String resp = "OK";
+        byte[] response = resp.getBytes();
+        con.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.length);
+        con.getResponseBody().write(response);
+        con.getResponseBody().flush();
+        con.getResponseBody().close();
         if (con.getRequestMethod().contentEquals("POST")) {
-            System.out.println(req_body);
+
             try {
                 bodyToJSON();
                 updateTable();
-            } catch (ParseException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(HeartBeatHandler.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.print("parseerror");
             }
 
         } else {
             System.out.println(con.getRequestMethod());
         }
+
+        //con.close();
         //  throw new IOException("not post");
     }
 
@@ -81,12 +90,11 @@ public class HeartBeatHandler implements HttpHandler, Handler {
 
         JSONParser parser = new JSONParser();
         JSONObject json = (JSONObject) parser.parse(req_body);
-        from_id_str = ((String) json.get("ID"));
+        from_id_str = (String) json.get("ID");
         from_id_int = Integer.parseInt(from_id_str);
         from_id_ipaddr = ((String) json.get("IPADDR"));
         from_id_port = Integer.parseInt(((String) json.get("IPORT")));
-        trailer = (JSONObject) json.get("trailer");
-        System.out.println(trailer);
+        trailer = (JSONArray) json.get("TRAILER");                 //TODO parse the array
 
     }
 
@@ -107,7 +115,7 @@ public class HeartBeatHandler implements HttpHandler, Handler {
 
             }
         } else {                                                                          //if the entry is not present
-            node_data.put(from_id_int, new Node(from_id_int, time, from_id_port));
+            node_data.put(from_id_int, new Node(from_id_int, time, from_id_port, from_id_ipaddr));
             queue.update(node_data.get(from_id_int));
 
         }
