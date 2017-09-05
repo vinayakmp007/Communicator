@@ -27,7 +27,7 @@ import org.json.simple.parser.JSONParser;
 //TODO handle the triler part of the request body
 public class HeartBeatHandler implements HttpHandler, Handler {
 
-    Map<String, String> param = new HashMap<>();
+    Map<String, String> param = new HashMap<>();      
     Map<String, String[]> req_headr = new HashMap<>();
     Map<Integer, Node> node_data;
     InputStream data_inpstream;
@@ -60,7 +60,7 @@ public class HeartBeatHandler implements HttpHandler, Handler {
         }
         req_body = tembuf.toString();
         String resp = "OK";
-        byte[] response = resp.getBytes();
+        byte[] response = resp.getBytes();                                   //Write the response
         con.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.length);
         con.getResponseBody().write(response);
         con.getResponseBody().flush();
@@ -79,7 +79,7 @@ public class HeartBeatHandler implements HttpHandler, Handler {
             System.out.println(con.getRequestMethod());
         }
 
-        //con.close();
+        con.close();
         //  throw new IOException("not post");
     }
 
@@ -88,7 +88,7 @@ public class HeartBeatHandler implements HttpHandler, Handler {
             throw new NullPointerException("Request Body is empty");
         }
 
-        JSONParser parser = new JSONParser();
+        JSONParser parser = new JSONParser();               //obtain data from JSON string
         JSONObject json = (JSONObject) parser.parse(req_body);
         from_id_str = (String) json.get("ID");
         from_id_int = Integer.parseInt(from_id_str);

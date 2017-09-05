@@ -9,9 +9,9 @@ package communicator;
  *
  * @author vinayak
  */
-public class Node {
+public class Node {                         //this is used represent the other nodes(systems in the network) in memory
 
-    int identifier;
+    int identifier;                        //uniquely identifies every system in the network which defined by every system Elemets class
     long milli_timestamp;
     int input_port;
     String ipaddress;

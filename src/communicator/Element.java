@@ -12,7 +12,7 @@ import java.net.UnknownHostException;
  *
  * @author vinayak
  */
-public class Element {
+public class Element {                 //this class used by every individual system
 
     int identifier, input_port_no;                                                //ip might change here
     long heartbeat_in_ms;

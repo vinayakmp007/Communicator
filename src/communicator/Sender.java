@@ -30,6 +30,7 @@ public class Sender {
     Map<Integer, Node> node_data;
     
     public Sender(Element el,Node a, String serv,NodePriorityQueue queu,Map<Integer,Node> nod_dat) throws IOException {
+                                    //This is used send information to individual system in JSON format
         this.queue=queu;
         this.node_data=nod_dat;
         this.to = a;
@@ -49,6 +50,8 @@ public class Sender {
         httpCon.setRequestMethod("POST");
         httpCon.setUseCaches(false);
         httpCon.setDoInput(true);
+        
+        /*Header in the JSON String*/
         JSONObject json=new JSONObject();
         json.put("ID", Integer.toString(element.getIdentifier()));
         json.put("IPADDR",element.getHostIP());
@@ -57,6 +60,7 @@ public class Sender {
         httpCon.setRequestProperty("Accept", "application/json");
         httpCon.setRequestProperty("Content-Type", "application/json");
         
+        /*Trailer in the Json String*/
         json.put("TRAILER", makeTrailer());
         
         OutputStream os = httpCon.getOutputStream();
@@ -75,7 +79,7 @@ public class Sender {
         
     }
 
-    public JSONArray  makeTrailer() throws UnknownHostException{
+    public JSONArray  makeTrailer() throws UnknownHostException{   //this method makes trailer for from prioruty queue
     
     JSONArray ja = new JSONArray();
     NodePriorityQueue tem=new NodePriorityQueue(queue);               //creates a temporay queue
