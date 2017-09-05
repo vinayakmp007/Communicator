@@ -32,10 +32,12 @@ public class HeartBeatHandler implements HttpHandler,Handler{
    int req_bodysize,from_id_int;
    JSONObject trailer;
    long time;
-   
-   public HeartBeatHandler(Map<Integer,Node> t){
+   NodePriorityQueue queue;
+   public HeartBeatHandler(Map<Integer,Node> t,NodePriorityQueue b){
    node_data=t;
+   queue=b;
    }
+   @Override
    public void handle(HttpExchange con) throws IOException{
    
   // param=Handler.queryToMap(con.getRequestURI().getQuery());
@@ -86,11 +88,12 @@ public class HeartBeatHandler implements HttpHandler,Handler{
     if(node_data.containsKey(from_id_int)){                                       //already an entry is present
             if(node_data.get(from_id_int).getTimestamp()<time){                       //update only if timestamp is greater
         node_data.get(from_id_int).setTimestamp(time);
+        queue.update(node_data.get(from_id_int));
         }
                 }
-        else {                                                                          //if the enter is not present
+        else {                                                                          //if the entry is not present
         node_data.put(from_id_int, new Node(from_id_int,time));
-        
+        queue.update(node_data.get(from_id_int));
         
         }
     

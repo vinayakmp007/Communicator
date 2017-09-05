@@ -20,11 +20,13 @@ public  class Receiver {
     HttpServer server;
     HeartBeatHandler heartbthand;
     Map<Integer,Node> node_data;
-    public Receiver(int port, Map<Integer,Node> t) throws IOException{
+    NodePriorityQueue node_pqueue;
+    public Receiver(int port, Map<Integer,Node> t,NodePriorityQueue b) throws IOException{
         node_data=t;
+        node_pqueue=b;
         port_no=port;
         setServer();
-        heartbthand=new HeartBeatHandler(node_data);
+        heartbthand=new HeartBeatHandler(node_data,node_pqueue);
         server.createContext("/heartbeat", heartbthand);
         server.setExecutor(null);
         startServer();

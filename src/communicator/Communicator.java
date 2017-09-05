@@ -16,6 +16,7 @@ import java.util.HashMap;
  */
 public class Communicator {
 Map<Integer,Node> Nodes;
+NodePriorityQueue queue;
 Receiver a;
     /**
      * @param args the command line arguments
@@ -27,7 +28,8 @@ Receiver a;
     }
  public Communicator() throws IOException{
  Nodes =new HashMap<>();
- a=new Receiver(8124,Nodes);
+ queue =new NodePriorityQueue();
+ a=new Receiver(8124,Nodes,queue);
  }   
  public void start(){
    
