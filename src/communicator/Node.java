@@ -13,6 +13,7 @@ public class Node {
 int identifier;
 long milli_timestamp;
 int input_port;
+String ipaddress;
 public int getIdentifier(){
 return identifier;
 }
@@ -27,6 +28,14 @@ milli_timestamp=i;
 }
 public void setInputPort(int i){
 input_port=i;
+}
+public void setIPAddress(String s){
+ipaddress=s;
+
+}
+public String getIPAddress(){
+return ipaddress;
+
 }
 public int getInputPort(){
 return input_port;

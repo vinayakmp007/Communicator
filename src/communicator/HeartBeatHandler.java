@@ -30,7 +30,7 @@ public class HeartBeatHandler implements HttpHandler,Handler{
    Map<String,String[]> req_headr=new HashMap<>();
    Map<Integer,Node> node_data;
    InputStream data_inpstream;
-   String req_body,from_id_str;
+   String req_body,from_id_str,from_id_ipaddr;
    int req_bodysize,from_id_int,from_id_port;
    JSONObject trailer;
    long time;
@@ -78,6 +78,7 @@ public class HeartBeatHandler implements HttpHandler,Handler{
         JSONObject json = (JSONObject) parser.parse(req_body);
         from_id_str = ((String) json.get("ID"));
         from_id_int=Integer.parseInt(from_id_str);
+        from_id_ipaddr = ((String) json.get("IPADDR"));
         from_id_port=Integer.parseInt(((String) json.get("IPORT")));
         trailer = (JSONObject) json.get("trailer");
         System.out.println(trailer);
@@ -96,6 +97,11 @@ public class HeartBeatHandler implements HttpHandler,Handler{
         node_data.get(from_id_int).setInputPort(from_id_port);
         
         }
+        if(!(node_data.get(from_id_int).getIPAddress().contentEquals(from_id_ipaddr))){          //changes ipaddress if the timestamp is new                     
+        node_data.get(from_id_int).setIPAddress(from_id_ipaddr);
+        
+        }
+        
         }
                 }
         else {                                                                          //if the entry is not present

@@ -10,5 +10,13 @@ package communicator;
  * @author vinayak
  */
 public class Sender {
+    Node to;
+    public Sender(Node a){
+   this.to=a;
+   
+}
+    public void connect(){
     
+    
+    }
 }

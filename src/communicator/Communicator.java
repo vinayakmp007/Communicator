@@ -31,6 +31,7 @@ Receiver a;
  public Communicator(Element elem) throws IOException{
  Nodes =new HashMap<>();
  queue =new NodePriorityQueue();
+ System.out.println(elem.getHostIP());
  a=new Receiver(elem,Nodes,queue);
  }   
  public void start(){
