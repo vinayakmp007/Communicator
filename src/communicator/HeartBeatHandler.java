@@ -22,6 +22,8 @@ import org.json.simple.parser.JSONParser;
  *
  * @author vinayak
  */
+
+//TODO handle the triler part of the request body
 public class HeartBeatHandler implements HttpHandler,Handler{
    
    Map<String,String> param =new HashMap<>();
@@ -29,7 +31,7 @@ public class HeartBeatHandler implements HttpHandler,Handler{
    Map<Integer,Node> node_data;
    InputStream data_inpstream;
    String req_body,from_id_str;
-   int req_bodysize,from_id_int;
+   int req_bodysize,from_id_int,from_id_port;
    JSONObject trailer;
    long time;
    NodePriorityQueue queue;
@@ -68,7 +70,7 @@ public class HeartBeatHandler implements HttpHandler,Handler{
   else System.out.println(con.getRequestMethod());
  //  throw new IOException("not post");
    }
-    void bodyToJSON() throws ParseException{
+    void bodyToJSON() throws ParseException{                          //converts rewuest body to json
       if(req_body.isEmpty())throw new NullPointerException("Request Body is empty");
       
       
@@ -76,6 +78,7 @@ public class HeartBeatHandler implements HttpHandler,Handler{
         JSONObject json = (JSONObject) parser.parse(req_body);
         from_id_str = ((String) json.get("ID"));
         from_id_int=Integer.parseInt(from_id_str);
+        from_id_port=Integer.parseInt(((String) json.get("IPORT")));
         trailer = (JSONObject) json.get("trailer");
         System.out.println(trailer);
         
@@ -83,16 +86,20 @@ public class HeartBeatHandler implements HttpHandler,Handler{
           
    }
     
-    void updateTable(){
+    void updateTable(){                                     //TODO make this thread safe and take arguemnts rather than member functions
     
     if(node_data.containsKey(from_id_int)){                                       //already an entry is present
             if(node_data.get(from_id_int).getTimestamp()<time){                       //update only if timestamp is greater
         node_data.get(from_id_int).setTimestamp(time);
         queue.update(node_data.get(from_id_int));
+        if(node_data.get(from_id_int).getInputPort()>from_id_port){          //changes port if the timestamp is new                     
+        node_data.get(from_id_int).setInputPort(from_id_port);
+        
+        }
         }
                 }
         else {                                                                          //if the entry is not present
-        node_data.put(from_id_int, new Node(from_id_int,time));
+        node_data.put(from_id_int, new Node(from_id_int,time,from_id_port));
         queue.update(node_data.get(from_id_int));
         
         }

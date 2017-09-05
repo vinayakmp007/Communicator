@@ -17,14 +17,15 @@ import com.sun.net.httpserver.HttpServer;
  */
 public  class Receiver {
     int port_no;
-    HttpServer server;
+    Element whomai;
+    HttpServer server;                      //identifies the system and properties on which the service is runnig on
     HeartBeatHandler heartbthand;
-    Map<Integer,Node> node_data;
-    NodePriorityQueue node_pqueue;
-    public Receiver(int port, Map<Integer,Node> t,NodePriorityQueue b) throws IOException{
+    Map<Integer,Node> node_data;                    //data structers to store nodes
+    NodePriorityQueue node_pqueue;                  //data structure to store nodes in the sorted order
+    public Receiver(Element m, Map<Integer,Node> t,NodePriorityQueue b) throws IOException{
         node_data=t;
         node_pqueue=b;
-        port_no=port;
+        port_no=m.getInputPort();
         setServer();
         heartbthand=new HeartBeatHandler(node_data,node_pqueue);
         server.createContext("/heartbeat", heartbthand);

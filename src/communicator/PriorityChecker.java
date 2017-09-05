@@ -12,9 +12,9 @@ import java.util.*;
  */
 public class PriorityChecker implements Comparator<Node>{
     @Override
-    public int compare(Node a,Node b){
+    public int compare(Node a,Node b){                    //comaparotr used for NodepriorityQueue
     if(a.getTimestamp()>b.getTimestamp())return 1;
-    else return -1;    
+    else return -1;                                       //returns if a is newer than b
     
     }
     

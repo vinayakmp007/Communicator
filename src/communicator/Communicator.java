@@ -20,18 +20,20 @@ NodePriorityQueue queue;
 Receiver a;
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
-        Communicator b=new Communicator();
+        Communicator b;
+    b = new Communicator(new Element(1234,8124,30000));
         b.start();
         
     }
- public Communicator() throws IOException{
+ public Communicator(Element elem) throws IOException{
  Nodes =new HashMap<>();
  queue =new NodePriorityQueue();
- a=new Receiver(8124,Nodes,queue);
+ a=new Receiver(elem,Nodes,queue);
  }   
  public void start(){
-   
+   System.out.println("hello");
  }
 }

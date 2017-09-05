@@ -12,6 +12,7 @@ package communicator;
 public class Node {
 int identifier;
 long milli_timestamp;
+int input_port;
 public int getIdentifier(){
 return identifier;
 }
@@ -24,9 +25,17 @@ identifier=i;
 public void setTimestamp(long i){
 milli_timestamp=i;
 }
-public Node(int i,long j){
-identifier=i;
-milli_timestamp=j;
+public void setInputPort(int i){
+input_port=i;
+}
+public int getInputPort(){
+return input_port;
+}
+public Node(int id,long timestmp,int port){
+identifier=id;
+milli_timestamp=timestmp;
+input_port=port;
 
 }
+
 }
