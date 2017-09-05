@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package communicator;
+
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.util.*;
@@ -22,93 +23,94 @@ import org.json.simple.parser.JSONParser;
  *
  * @author vinayak
  */
-
 //TODO handle the triler part of the request body
-public class HeartBeatHandler implements HttpHandler,Handler{
-   
-   Map<String,String> param =new HashMap<>();
-   Map<String,String[]> req_headr=new HashMap<>();
-   Map<Integer,Node> node_data;
-   InputStream data_inpstream;
-   String req_body,from_id_str,from_id_ipaddr;
-   int req_bodysize,from_id_int,from_id_port;
-   JSONObject trailer;
-   long time;
-   NodePriorityQueue queue;
-   public HeartBeatHandler(Map<Integer,Node> t,NodePriorityQueue b){
-   node_data=t;
-   queue=b;
-   }
-   @Override
-   public void handle(HttpExchange con) throws IOException{
-   
-  // param=Handler.queryToMap(con.getRequestURI().getQuery());
-    time = System.currentTimeMillis();
-   data_inpstream=con.getRequestBody();
-   
-   byte tm,tmbuf[]=new byte[4096];
-   char tmp;
-  StringBuilder tembuf=new StringBuilder();
-   
- while((tm= (byte) data_inpstream.read()) !=-1){
- tmp=(char) tm;
-     tembuf.append(tmp);
-  
- }
-  req_body=tembuf.toString();
-  
-  if(con.getRequestMethod().contentEquals("POST")){
-      System.out.println(req_body);
-       try {
-           bodyToJSON();
-           updateTable();
-       } catch (ParseException ex) {
-           Logger.getLogger(HeartBeatHandler.class.getName()).log(Level.SEVERE, null, ex);
-       }
-      
-  }
-  else System.out.println(con.getRequestMethod());
- //  throw new IOException("not post");
-   }
-    void bodyToJSON() throws ParseException{                          //converts rewuest body to json
-      if(req_body.isEmpty())throw new NullPointerException("Request Body is empty");
-      
-      
-       JSONParser parser = new JSONParser();
+public class HeartBeatHandler implements HttpHandler, Handler {
+
+    Map<String, String> param = new HashMap<>();
+    Map<String, String[]> req_headr = new HashMap<>();
+    Map<Integer, Node> node_data;
+    InputStream data_inpstream;
+    String req_body, from_id_str, from_id_ipaddr;
+    int req_bodysize, from_id_int, from_id_port;
+    JSONObject trailer;
+    long time;
+    NodePriorityQueue queue;
+
+    public HeartBeatHandler(Map<Integer, Node> t, NodePriorityQueue b) {
+        node_data = t;
+        queue = b;
+    }
+
+    @Override
+    public void handle(HttpExchange con) throws IOException {
+
+        // param=Handler.queryToMap(con.getRequestURI().getQuery());
+        time = System.currentTimeMillis();
+        data_inpstream = con.getRequestBody();
+
+        byte tm, tmbuf[] = new byte[4096];
+        char tmp;
+        StringBuilder tembuf = new StringBuilder();
+
+        while ((tm = (byte) data_inpstream.read()) != -1) {
+            tmp = (char) tm;
+            tembuf.append(tmp);
+
+        }
+        req_body = tembuf.toString();
+
+        if (con.getRequestMethod().contentEquals("POST")) {
+            System.out.println(req_body);
+            try {
+                bodyToJSON();
+                updateTable();
+            } catch (ParseException ex) {
+                Logger.getLogger(HeartBeatHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            System.out.println(con.getRequestMethod());
+        }
+        //  throw new IOException("not post");
+    }
+
+    void bodyToJSON() throws ParseException {                          //converts rewuest body to json
+        if (req_body.isEmpty()) {
+            throw new NullPointerException("Request Body is empty");
+        }
+
+        JSONParser parser = new JSONParser();
         JSONObject json = (JSONObject) parser.parse(req_body);
         from_id_str = ((String) json.get("ID"));
-        from_id_int=Integer.parseInt(from_id_str);
+        from_id_int = Integer.parseInt(from_id_str);
         from_id_ipaddr = ((String) json.get("IPADDR"));
-        from_id_port=Integer.parseInt(((String) json.get("IPORT")));
+        from_id_port = Integer.parseInt(((String) json.get("IPORT")));
         trailer = (JSONObject) json.get("trailer");
         System.out.println(trailer);
-        
-        
-          
-   }
-    
-    void updateTable(){                                     //TODO make this thread safe and take arguemnts rather than member functions
-    
-    if(node_data.containsKey(from_id_int)){                                       //already an entry is present
-            if(node_data.get(from_id_int).getTimestamp()<time){                       //update only if timestamp is greater
-        node_data.get(from_id_int).setTimestamp(time);
-        queue.update(node_data.get(from_id_int));
-        if(node_data.get(from_id_int).getInputPort()>from_id_port){          //changes port if the timestamp is new                     
-        node_data.get(from_id_int).setInputPort(from_id_port);
-        
-        }
-        if(!(node_data.get(from_id_int).getIPAddress().contentEquals(from_id_ipaddr))){          //changes ipaddress if the timestamp is new                     
-        node_data.get(from_id_int).setIPAddress(from_id_ipaddr);
-        
-        }
-        
-        }
+
+    }
+
+    void updateTable() {                                     //TODO make this thread safe and take arguemnts rather than member functions
+
+        if (node_data.containsKey(from_id_int)) {                                       //already an entry is present
+            if (node_data.get(from_id_int).getTimestamp() < time) {                       //update only if timestamp is greater
+                node_data.get(from_id_int).setTimestamp(time);
+                queue.update(node_data.get(from_id_int));
+                if (node_data.get(from_id_int).getInputPort() > from_id_port) {          //changes port if the timestamp is new                     
+                    node_data.get(from_id_int).setInputPort(from_id_port);
+
                 }
-        else {                                                                          //if the entry is not present
-        node_data.put(from_id_int, new Node(from_id_int,time,from_id_port));
-        queue.update(node_data.get(from_id_int));
-        
+                if (!(node_data.get(from_id_int).getIPAddress().contentEquals(from_id_ipaddr))) {          //changes ipaddress if the timestamp is new                     
+                    node_data.get(from_id_int).setIPAddress(from_id_ipaddr);
+
+                }
+
+            }
+        } else {                                                                          //if the entry is not present
+            node_data.put(from_id_int, new Node(from_id_int, time, from_id_port));
+            queue.update(node_data.get(from_id_int));
+
         }
-    
+
     }
 }

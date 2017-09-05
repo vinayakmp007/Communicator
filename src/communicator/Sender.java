@@ -5,18 +5,33 @@
  */
 package communicator;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.HttpURLConnection;
+
 /**
  *
  * @author vinayak
  */
 public class Sender {
+
     Node to;
-    public Sender(Node a){
-   this.to=a;
-   
-}
-    public void connect(){
-    
-    
+    String service;
+
+    public Sender(Node a, String serv) {
+        this.to = a;
+        this.service = serv;
+
+    }
+
+    public void connect() throws MalformedURLException, IOException {
+        String urls = "http://" + to.getIPAddress() + ";" + to.getInputPort() + "/" + service;             //creates the url for connecting
+        URL url = new URL(urls);
+
+        HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();                     // connetcs to the service
+        httpCon.setDoOutput(true);
+        httpCon.setRequestMethod("POST");
+
     }
 }

@@ -7,37 +7,45 @@ package communicator;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
 /**
  *
  * @author vinayak
  */
 public class Element {
-    int identifier,input_port_no;                                                //ip might change here
+
+    int identifier, input_port_no;                                                //ip might change here
     long heartbeat_in_ms;
     String myipaddr;
-    public Element(int a,int b,long c) throws UnknownHostException{    /*
+
+    public Element(int a, int b, long c) throws UnknownHostException {
+        /*
 arguments 
 1)idenfifier 
 2)input_port 
 3)heartbeat interval 
 4)*/
-        identifier=a;
-        input_port_no=b;
-        heartbeat_in_ms=c;
-        myipaddr=InetAddress.getLocalHost().getHostAddress();
-        
-}
-public int getIdentifier(){
-    return identifier;
+        identifier = a;
+        input_port_no = b;
+        heartbeat_in_ms = c;
+        myipaddr = InetAddress.getLocalHost().getHostAddress();
+
     }
-public int getInputPort(){
-    return input_port_no;
+
+    public int getIdentifier() {
+        return identifier;
     }
-public long getHeartBeatInterval(){
-    return heartbeat_in_ms;
+
+    public int getInputPort() {
+        return input_port_no;
     }
-public String  getHostIP() throws UnknownHostException{
-myipaddr=InetAddress.getLocalHost().getHostAddress();
-return myipaddr;
-}
+
+    public long getHeartBeatInterval() {
+        return heartbeat_in_ms;
+    }
+
+    public String getHostIP() throws UnknownHostException {
+        myipaddr = InetAddress.getLocalHost().getHostAddress();
+        return myipaddr;
+    }
 }

@@ -10,5 +10,5 @@ package communicator;
  * @author vinayak
  */
 public class Transmitter {
-    
+
 }
