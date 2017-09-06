@@ -27,14 +27,14 @@ import org.json.simple.parser.JSONParser;
 //TODO handle the triler part of the request body
 public class HeartBeatHandler implements HttpHandler, Handler {
 
-    Map<String, String> param = new HashMap<>();      
+    Map<String, String> param = new HashMap<>();
     Map<String, String[]> req_headr = new HashMap<>();
     Map<Integer, Node> node_data;
     InputStream data_inpstream;
     String req_body, from_id_str, from_id_ipaddr;
     int req_bodysize, from_id_int, from_id_port;
     JSONArray trailer;
-    long time,from_id_time;
+    long time, from_id_time;
     NodePriorityQueue queue;
 
     public HeartBeatHandler(Map<Integer, Node> t, NodePriorityQueue b) {
@@ -94,7 +94,7 @@ public class HeartBeatHandler implements HttpHandler, Handler {
         from_id_int = Integer.parseInt(from_id_str);
         from_id_ipaddr = ((String) json.get("IPADDR"));
         from_id_port = Integer.parseInt(((String) json.get("IPORT")));
-        from_id_time=Long.parseLong((String)json.get("TIME"));
+        from_id_time = Long.parseLong((String) json.get("TIME"));
         trailer = (JSONArray) json.get("TRAILER");                 //TODO parse the array
 
     }
@@ -120,36 +120,36 @@ public class HeartBeatHandler implements HttpHandler, Handler {
             queue.update(node_data.get(from_id_int));
 
         }
-        updateTableFromTrailer(trailer,from_id_time);                                  //no need to pass json array
+        updateTableFromTrailer(trailer, from_id_time);                                  //no need to pass json array
 
     }
-    
-    void updateTableFromTrailer(JSONArray jsonarray,long sender_time){
-    
-    for (int i = 0; i < jsonarray.size(); i++) {                    //TODO check correct elemnt is present or not
-    JSONObject jsonobject =(JSONObject) jsonarray.get(i);
-    
-    String id = (String)jsonobject.get("ID");
-    String ipadr = (String)jsonobject.get("IPADDR");
-    String timest = (String)jsonobject.get("TIME");
-    String port = (String)jsonobject.get("IPORT");
-    
-    updateTable(id,ipadr,timest,port,sender_time);
-                                                                                //assuming sender_time and time to be timestamp of Sender and receiver at the instant 
-                                                                           //we use to calcute the relative time of the other nodes to the receiver
-    }                   
-    
-    
+
+    void updateTableFromTrailer(JSONArray jsonarray, long sender_time) {
+
+        for (int i = 0; i < jsonarray.size(); i++) {                    //TODO check correct elemnt is present or not
+            JSONObject jsonobject = (JSONObject) jsonarray.get(i);
+
+            String id = (String) jsonobject.get("ID");
+            String ipadr = (String) jsonobject.get("IPADDR");
+            String timest = (String) jsonobject.get("TIME");
+            String port = (String) jsonobject.get("IPORT");
+
+            updateTable(id, ipadr, timest, port, sender_time);
+            //assuming sender_time and time to be timestamp of Sender and receiver at the instant 
+            //we use to calcute the relative time of the other nodes to the receiver
+        }
+
     }
-    void updateTable(String id,String ipaddr_ob,String timest,String port,long sender_time) {                                     //TODO make this thread safe and take arguemnts rather than member functions
-                                                                                                                                                                  //assuming sender_time and time to be timestamp of Sender and receiver at the instant 
-                                                                           //we use to calcute the relative time of the other nodes to the receiver
-    
-     int id_ob=Integer.parseInt(id);
-     int port_ob=Integer.parseInt(port);
-     long time_ob=Long.parseLong(timest);
-     time_ob=time-(sender_time-time_ob);                       //gets relative time for current system
-     
+
+    void updateTable(String id, String ipaddr_ob, String timest, String port, long sender_time) {                                     //TODO make this thread safe and take arguemnts rather than member functions
+        //assuming sender_time and time to be timestamp of Sender and receiver at the instant 
+        //we use to calcute the relative time of the other nodes to the receiver
+
+        int id_ob = Integer.parseInt(id);
+        int port_ob = Integer.parseInt(port);
+        long time_ob = Long.parseLong(timest);
+        time_ob = time - (sender_time - time_ob);                       //gets relative time for current system
+
         if (node_data.containsKey(id_ob)) {                                       //already an entry is present
             if (node_data.get(id_ob).getTimestamp() < time_ob) {                       //update only if timestamp is greater
                 node_data.get(id_ob).setTimestamp(time_ob);
@@ -165,7 +165,7 @@ public class HeartBeatHandler implements HttpHandler, Handler {
 
             }
         } else {                                                                          //if the entry is not present
-            node_data.put(id_ob, new Node(id_ob, time_ob, port_ob,ipaddr_ob));
+            node_data.put(id_ob, new Node(id_ob, time_ob, port_ob, ipaddr_ob));
             queue.update(node_data.get(id_ob));
 
         }
