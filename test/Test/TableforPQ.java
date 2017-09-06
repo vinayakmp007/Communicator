@@ -16,55 +16,58 @@ import org.json.simple.JSONObject;
  *
  * @author vinayak
  */
-public class TableforPQ extends javax.swing.JFrame implements Runnable{
+public class TableforPQ extends javax.swing.JFrame implements Runnable {
+
     NodePriorityQueue queue;
+
     /**
      * Creates new form Tablefor
+     *
      * @param queuep
      */
-    
+
     /**
      * Creates new form Tablefor
      */
-    public void run(){
-        
+    public void run() {
+
         this.setVisible(true);
-        while(true){
+        while (true) {
             try {
                 makeTable();
                 Thread.sleep(3000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(TableforPQ.class.getName()).log(Level.SEVERE, null, ex);
             }
-        
+
         }
     }
-        
+
     public TableforPQ(NodePriorityQueue queuep) {
-                initComponents();
-                queue=queuep;
-               
-                
+        initComponents();
+        queue = queuep;
+
     }
 
-    public void makeTable(){
-    DefaultTableModel aModel = (DefaultTableModel) jTable1.getModel();
-    String cols[]={"ID","IPADDR","PORT","TIMESTAMP"};
-    aModel.setColumnIdentifiers(cols);
-    aModel.setRowCount(0);
-          
-                NodePriorityQueue tem=new NodePriorityQueue(queue);               //creates a temporay queue
-    Iterator itr=tem.iterator();
-    
-    while(itr.hasNext()){
-        
-         Node t=(Node)itr.next();
-         String row[]={Integer.toString(t.getIdentifier()),t.getIPAddress(),Integer.toString(t.getInputPort()),Long.toString(t.getTimestamp())};
-        aModel.addRow(row);
-        
-           }
-    
+    public void makeTable() {
+        DefaultTableModel aModel = (DefaultTableModel) jTable1.getModel();
+        String cols[] = {"ID", "IPADDR", "PORT", "TIMESTAMP"};
+        aModel.setColumnIdentifiers(cols);
+        aModel.setRowCount(0);
+
+        NodePriorityQueue tem = new NodePriorityQueue(queue);               //creates a temporay queue
+        Iterator itr = tem.iterator();
+
+        while (itr.hasNext()) {
+
+            Node t = (Node) itr.next();
+            String row[] = {Integer.toString(t.getIdentifier()), t.getIPAddress(), Integer.toString(t.getInputPort()), Long.toString(t.getTimestamp())};
+            aModel.addRow(row);
+
+        }
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -129,7 +132,6 @@ public class TableforPQ extends javax.swing.JFrame implements Runnable{
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JInternalFrame jInternalFrame1;

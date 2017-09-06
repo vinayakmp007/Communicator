@@ -18,56 +18,59 @@ import org.json.simple.JSONObject;
  *
  * @author vinayak
  */
-public class TableforMap extends javax.swing.JFrame implements Runnable{
+public class TableforMap extends javax.swing.JFrame implements Runnable {
+
     Map<Integer, Node> node_data;
+
     /**
      * Creates new form Tablefor
+     *
      * @param queuep
      */
-    
+
     /**
      * Creates new form Tablefor
      */
-    public void run(){
-        
+    public void run() {
+
         this.setVisible(true);
-        while(true){
+        while (true) {
             try {
                 makeTable();
                 Thread.sleep(3000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(TableforMap.class.getName()).log(Level.SEVERE, null, ex);
             }
-        
+
         }
     }
-        
+
     public TableforMap(Map<Integer, Node> node_dat) {
-                initComponents();
-                node_data=node_dat;
-               
-                
+        initComponents();
+        node_data = node_dat;
+
     }
 
-    public void makeTable(){
-    DefaultTableModel aModel = (DefaultTableModel) jTable1.getModel();
-    String cols[]={"ID","IPADDR","PORT","TIMESTAMP"};
-    aModel.setColumnIdentifiers(cols);
-    aModel.setRowCount(0);
-          
-                              //creates a temporay queue
-    Map<Integer,Node> tm=new ConcurrentHashMap<>(node_data);
-    Iterator itr=tm.values().iterator();
-    
-    while(itr.hasNext()){
-        
-         Node t=(Node)itr.next();
-         String row[]={Integer.toString(t.getIdentifier()),t.getIPAddress(),Integer.toString(t.getInputPort()),Long.toString(t.getTimestamp())};
-        aModel.addRow(row);
-        
-           }
-    
+    public void makeTable() {
+        DefaultTableModel aModel = (DefaultTableModel) jTable1.getModel();
+        String cols[] = {"ID", "IPADDR", "PORT", "TIMESTAMP"};
+        aModel.setColumnIdentifiers(cols);
+        aModel.setRowCount(0);
+
+        //creates a temporay queue
+        Map<Integer, Node> tm = new ConcurrentHashMap<>(node_data);
+        Iterator itr = tm.values().iterator();
+
+        while (itr.hasNext()) {
+
+            Node t = (Node) itr.next();
+            String row[] = {Integer.toString(t.getIdentifier()), t.getIPAddress(), Integer.toString(t.getInputPort()), Long.toString(t.getTimestamp())};
+            aModel.addRow(row);
+
+        }
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -132,7 +135,6 @@ public class TableforMap extends javax.swing.JFrame implements Runnable{
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JInternalFrame jInternalFrame1;
