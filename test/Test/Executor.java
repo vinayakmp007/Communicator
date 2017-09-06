@@ -47,26 +47,39 @@ public class Executor {
                 
                 
                try {
-                    Communicator b;
+                    Communicator b,c,d,e,f,g;
                     
                     
                     
                     b = new Communicator(new Element(1234, 8124, 30000));
-                    
+                    c=new Communicator(new Element(1235,8125,30000));
+                    d=new Communicator(new Element(1236,8126,30000));
+                    e = new Communicator(new Element(1237, 8127, 30000));
+                    f=new Communicator(new Element(1238,8128,30000));
+                    g=new Communicator(new Element(1239,8129,30000));
                     b.start();
-                   TableforPQ a=new TableforPQ(b.getPQ());
-                    Thread t1 =new Thread(a);
-                    t1.start();
+                    d.start();
+                    c.start();
+                    e.start();
+                    f.start();
+                    g.start();
+                    
+                   (new Thread((new TableforPQ(b.getPQ())))).start();
+                   (new Thread((new TableforPQ(c.getPQ())))).start();
+                   (new Thread((new TableforPQ(d.getPQ())))).start();
+                   (new Thread((new TableforPQ(e.getPQ())))).start();
+                   (new Thread((new TableforPQ(f.getPQ())))).start();
+                   (new Thread((new TableforPQ(g.getPQ())))).start();
                     
                     
-                    
-                   TableforMap c=new TableforMap(b.getMap());
-                    
-                    Thread t2 =new Thread(c);
-                    t2.start();
+                   /*9(new Thread((new TableforMap(b.getMap())))).start();
+                   (new Thread((new TableforMap(c.getMap())))).start();
+                   (new Thread((new TableforMap(d.getMap())))).start();*/
+                   
                     
                 } catch (Exception ex) {
                     Logger.getLogger(Executor.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
                 } 
                 
             }

@@ -16,27 +16,25 @@ public class NodePriorityQueue {                             //the class that ma
     PriorityQueue<Node> pqueue;
 
     public NodePriorityQueue() {
-        PriorityChecker pc=new PriorityChecker();
-        
-        pqueue = new PriorityQueue<>(10,pc);
+        PriorityChecker pc = new PriorityChecker();
+
+        pqueue = new PriorityQueue<>(10, pc);
     }
-    
+
     public NodePriorityQueue(NodePriorityQueue qu) {
         this.pqueue = new PriorityQueue(qu.pqueue);                    //TODO change implmentation
     }
 
-    
-
     public void add(Node a) {
         pqueue.add(a);
-        
+
     }
 
     public void remove(Node a) {
         pqueue.remove(a);
     }
-    
-    public  Iterator<Node> iterator() {
+
+    public Iterator<Node> iterator() {
         return pqueue.iterator();
     }
 
@@ -44,14 +42,28 @@ public class NodePriorityQueue {                             //the class that ma
         this.remove(a);
         this.add(a);
     }
-    
-    public Node[] toArray(){
-    
-        return (Node[])pqueue.toArray();
+
+    public Node[] toArray() {
+
+        return (Node[]) pqueue.toArray();
     }
-    
-    public int size(){
-    
+
+    public int size() {
+
         return pqueue.size();
+    }
+
+    public boolean hasNext() {
+
+        if (size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Node next() {
+
+        return pqueue.poll();
     }
 }

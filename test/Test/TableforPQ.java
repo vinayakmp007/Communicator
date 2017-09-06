@@ -56,11 +56,11 @@ public class TableforPQ extends javax.swing.JFrame implements Runnable {
         aModel.setRowCount(0);
 
         NodePriorityQueue tem = new NodePriorityQueue(queue);               //creates a temporay queue
-        Iterator itr = tem.iterator();
+        
 
-        while (itr.hasNext()) {
+        while (tem.hasNext()) {
 
-            Node t = (Node) itr.next();
+            Node t = (Node) tem.next();
             String row[] = {Integer.toString(t.getIdentifier()), t.getIPAddress(), Integer.toString(t.getInputPort()), Long.toString(t.getTimestamp())};
             aModel.addRow(row);
 

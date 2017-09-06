@@ -19,7 +19,8 @@ public class Communicator {
 
     Map<Integer, Node> Nodes;
     NodePriorityQueue queue;
-    Receiver a;
+    Receiver rcv;
+    Transmitter trns;
 
     /**
      * @param args the command line arguments
@@ -27,32 +28,32 @@ public class Communicator {
      */
     public static void main(String[] args) throws IOException, InterruptedException {
         Communicator b;
-        
-        
+
         b = new Communicator(new Element(1234, 8124, 30000));
         b.start();
         //Thread.sleep(3*10000);
-        
-        
+
     }
 
     public Communicator(Element elem) throws IOException, InterruptedException {
         Nodes = new HashMap<>();
         queue = new NodePriorityQueue();
-        
-        Element c=new Element(1234, 8124, 30000);
-        a = new Receiver(elem, Nodes, queue);
-        
-        
+
+        rcv = new Receiver(elem, Nodes, queue);
+        trns = new Transmitter(elem, Nodes, queue);
+        Thread t = new Thread(trns);
+        t.start();
+
     }
 
-    public NodePriorityQueue getPQ(){
-    return queue;
+    public NodePriorityQueue getPQ() {
+        return queue;
     }
-    
-    public Map<Integer,Node>getMap(){
-    return Nodes;
+
+    public Map<Integer, Node> getMap() {
+        return Nodes;
     }
+
     public void start() {
         System.out.println("hello");
     }
