@@ -39,16 +39,20 @@ public class Communicator {
     public Communicator(Element elem) throws IOException, InterruptedException {
         Nodes = new HashMap<>();
         queue = new NodePriorityQueue();
+        
         Element c=new Element(1234, 8124, 30000);
         a = new Receiver(elem, Nodes, queue);
-        while(true){
         
         
-        Sender tem=new Sender(c,new Node(1234,0,8124,"localhost"),"heartbeat",queue,Nodes);
-        Thread.sleep(3*1000);
-        }
     }
 
+    public NodePriorityQueue getPQ(){
+    return queue;
+    }
+    
+    public Map<Integer,Node>getMap(){
+    return Nodes;
+    }
     public void start() {
         System.out.println("hello");
     }
