@@ -14,9 +14,17 @@ import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.Iterator;
 import java.io.*;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
@@ -49,7 +57,7 @@ public class Sender implements Runnable {
 
         try {
             connect();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(Sender.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
 
@@ -57,12 +65,22 @@ public class Sender implements Runnable {
     }
 
     @SuppressWarnings("empty-statement")
-    final void connect() throws MalformedURLException, IOException {
-        String urls = "http://" + to.getIPAddress() + ":" + to.getInputPort() + "/" + service;             //creates the url for connecting
+    final void connect() throws MalformedURLException, IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException, KeyManagementException {
+        KeyStore ks = KeyStore.getInstance("JKS");
+
+        ks.load(new FileInputStream(element.getKeyFile()), element.getPassword().toCharArray());
+        KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
+        kmf.init(ks, element.getPassword().toCharArray());
+        SSLContext sc = SSLContext.getInstance("TLS");
+        sc.init(kmf.getKeyManagers(), null, null);
+
+        String urls = "https://" + to.getIPAddress() + ":" + to.getInputPort() + "/" + service;             //creates the url for connecting
 
         URL url = new URL(urls);
         try {
-            HttpsURLConnection httpCon = (HttpsURLConnection) url.openConnection();                     // connects to the service
+            HttpsURLConnection httpCon = (HttpsURLConnection) url.openConnection();
+            // connects to the service
+            httpCon.setSSLSocketFactory(sc.getSocketFactory());
             httpCon.setDoOutput(true);
             httpCon.setRequestMethod("POST");
             httpCon.setUseCaches(false);

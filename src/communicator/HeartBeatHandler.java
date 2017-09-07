@@ -117,7 +117,7 @@ public class HeartBeatHandler implements HttpHandler, Handler {
             }
         } else {                                                                          //if the entry is not present
             node_data.put(from_id_int, new Node(from_id_int, time, from_id_port, from_id_ipaddr));   //NOTE:here here the current system time is taken
-            queue.update(node_data.get(from_id_int));
+            queue.update(node_data.get(from_id_int));                                   //TODO update or add
 
         }
         updateTableFromTrailer(trailer, from_id_time);                                  //no need to pass json array

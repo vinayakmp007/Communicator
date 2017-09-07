@@ -70,4 +70,9 @@ public class Communicator {
     return ele;
     }
     
+    public void addNode(int id, long timestmp, int port, String ipaddr){
+    Nodes.put(id, new Node(id,timestmp,port,ipaddr));
+    queue.update(Nodes.get(id));
+    
+    }
 }
