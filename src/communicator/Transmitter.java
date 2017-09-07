@@ -30,7 +30,7 @@ public class Transmitter implements Runnable {
         this.node_data = node;
         this.node_pqueue = que;
         this.elem = elem;
-        executor = Executors.newFixedThreadPool(elem.getThreadPoolSize());
+        executor = Executors.newFixedThreadPool(elem.getTransmitterThreadPoolSize());
 
     }
 
@@ -63,7 +63,7 @@ public class Transmitter implements Runnable {
 
                 }
 
-                System.out.println(i + "member" + tem.hasNext());
+               
 
             }
 

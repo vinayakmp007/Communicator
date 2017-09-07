@@ -20,7 +20,8 @@ public class Element {                 //this class used by every individual sys
     long wait_till_dead;
     long sending_interval;
     long maximum_time_sync_error;
-    int threadpoolsize;
+    int send_threadpoolsize;
+    int rcv_threadpoolsize;
     String myipaddr;
 
     public Element(int a, int b, long c) throws UnknownHostException {
@@ -33,9 +34,10 @@ arguments
         identifier = a;
         input_port_no = b;
         heartbeat_in_ms = c;
-        threadpoolsize = 5;                   //default threadpool size is 5 
+        send_threadpoolsize = 5;                   //default threadpool size is 5 
         wait_till_send = 50 * 1000;                  //default value is 30 
         wait_till_dead = 80 * 1000;                  //default value is 50
+        rcv_threadpoolsize = 5;   
     }
 
     public int getIdentifier() {
@@ -46,12 +48,19 @@ arguments
         return input_port_no;
     }
 
-    public int getThreadPoolSize() {
-        return threadpoolsize;
+    public int getTransmitterThreadPoolSize() {
+        return send_threadpoolsize;
     }
 
-    public void setThreadPoolSize(int a) {
-        threadpoolsize = a;
+    public void setTransmitterThreadPoolSize(int a) {
+        send_threadpoolsize = a;
+    }
+    public int getReceiverThreadPoolSize() {
+        return rcv_threadpoolsize;
+    }
+
+    public void setReceiverThreadPoolSize(int a) {
+        rcv_threadpoolsize = a;
     }
 
     public void setWaitTillSendmillis(long a) {

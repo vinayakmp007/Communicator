@@ -11,6 +11,8 @@ import java.net.InetSocketAddress;
 import java.util.*;
 
 import com.sun.net.httpserver.HttpServer;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  *
@@ -24,13 +26,16 @@ public class Receiver {
     HeartBeatHandler heartbthand;
     Map<Integer, Node> node_data;                    //data structers to store nodes
     NodePriorityQueue node_pqueue;                  //data structure to store nodes in the sorted order
-
+    ExecutorService executor;
+    
     public Receiver(Element m, Map<Integer, Node> t, NodePriorityQueue b) throws IOException {
         node_data = t;
         node_pqueue = b;
+        whomai=m;
         port_no = m.getInputPort();
         setServer();
         heartbthand = new HeartBeatHandler(node_data, node_pqueue);
+        executor = Executors.newFixedThreadPool(whomai.getReceiverThreadPoolSize());
         server.createContext("/heartbeat", heartbthand);
         server.setExecutor(null);
         startServer();
