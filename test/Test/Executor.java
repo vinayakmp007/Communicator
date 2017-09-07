@@ -8,6 +8,11 @@ package Test;
 import communicator.*;
 import communicator.Element;
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,6 +23,62 @@ import java.util.logging.Logger;
 public class Executor {
     
   
+public void testone(){
+
+    try {
+                    Communicator b,c,d,e,f,g;
+                    
+                    
+                    
+                    b = new Communicator(new Element(1234, 8124, 30000));
+                    c=new Communicator(new Element(1235,8125,30000));
+                    d=new Communicator(new Element(1236,8126,30000));
+                    e = new Communicator(new Element(1237, 8127, 30000));
+                    f=new Communicator(new Element(1238,8128,30000));
+                    g=new Communicator(new Element(1239,8129,30000));
+                    
+                    b.start();
+                    d.start();
+                    c.start();
+                    e.start();
+                    f.start();
+                    g.start();
+                    
+                   (new Thread((new TableforPQ(b.getPQ())))).start();
+                   (new Thread((new TableforPQ(c.getPQ())))).start();
+                   (new Thread((new TableforPQ(d.getPQ())))).start();
+                   (new Thread((new TableforPQ(e.getPQ())))).start();
+                   (new Thread((new TableforPQ(f.getPQ())))).start();
+                   (new Thread((new TableforPQ(g.getPQ())))).start();
+                    
+                    
+                   /*9(new Thread((new TableforMap(b.getMap())))).start();
+                   (new Thread((new TableforMap(c.getMap())))).start();
+                   (new Thread((new TableforMap(d.getMap())))).start();*/
+                   
+                    
+                } catch (Exception ex) {
+                    Logger.getLogger(Executor.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
+                }
+
+}
+
+public static void  test2() throws IOException, InterruptedException, NoSuchAlgorithmException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException{
+Communicator b,c;
+ b = new Communicator(new Element(1234, 8124, 30000));
+                    c=new Communicator(new Element(1235,8125,30000));
+                    b.getElement().setPasswordAndKeyFile("password","/home/vinayak/httpskey/testkey.jks");
+                    System.out.print(b.getElement().getKeyFile());
+                    c.getElement().setPasswordAndKeyFile("password","/home/vinayak/httpskey/testkey.jks");
+                    
+                    b.start();
+                    c.start();
+                    
+                    (new Thread((new TableforPQ(b.getPQ())))).start();
+                    (new Thread((new TableforPQ(c.getPQ())))).start();
+                    
+}
       public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -44,43 +105,14 @@ public class Executor {
 
         /* Create and display the form */
         
+               try{
+               test2();
+               }
+               catch(Exception ex){
+               ex.printStackTrace();
+               }
                 
                 
-               try {
-                    Communicator b,c,d,e,f,g;
-                    
-                    
-                    
-                    b = new Communicator(new Element(1234, 8124, 30000));
-                    c=new Communicator(new Element(1235,8125,30000));
-                    d=new Communicator(new Element(1236,8126,30000));
-                    e = new Communicator(new Element(1237, 8127, 30000));
-                    f=new Communicator(new Element(1238,8128,30000));
-                    g=new Communicator(new Element(1239,8129,30000));
-                    b.start();
-                    d.start();
-                    c.start();
-                    e.start();
-                    f.start();
-                    g.start();
-                    
-                   (new Thread((new TableforPQ(b.getPQ())))).start();
-                   (new Thread((new TableforPQ(c.getPQ())))).start();
-                   (new Thread((new TableforPQ(d.getPQ())))).start();
-                   (new Thread((new TableforPQ(e.getPQ())))).start();
-                   (new Thread((new TableforPQ(f.getPQ())))).start();
-                   (new Thread((new TableforPQ(g.getPQ())))).start();
-                    
-                    
-                   /*9(new Thread((new TableforMap(b.getMap())))).start();
-                   (new Thread((new TableforMap(c.getMap())))).start();
-                   (new Thread((new TableforMap(d.getMap())))).start();*/
-                   
-                    
-                } catch (Exception ex) {
-                    Logger.getLogger(Executor.class.getName()).log(Level.SEVERE, null, ex);
-                    ex.printStackTrace();
-                } 
                 
             }
         

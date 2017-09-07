@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.net.ssl.HttpsURLConnection;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
@@ -61,7 +62,7 @@ public class Sender implements Runnable {
 
         URL url = new URL(urls);
         try {
-            HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();                     // connects to the service
+            HttpsURLConnection httpCon = (HttpsURLConnection) url.openConnection();                     // connects to the service
             httpCon.setDoOutput(true);
             httpCon.setRequestMethod("POST");
             httpCon.setUseCaches(false);

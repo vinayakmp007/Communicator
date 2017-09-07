@@ -23,6 +23,7 @@ public class Element {                 //this class used by every individual sys
     int send_threadpoolsize;
     int rcv_threadpoolsize;
     String myipaddr;
+    String password,key_file;                       //Required for https connection
 
     public Element(int a, int b, long c) throws UnknownHostException {
         /*
@@ -46,6 +47,20 @@ arguments
 
     public int getInputPort() {
         return input_port_no;
+    }
+    public void setPasswordAndKeyFile(String password,String keyfile){
+    this.password=password;
+    this.key_file=keyfile;
+    
+    
+    }
+    public String getPassword(){
+    
+        return password;
+    }
+    
+    public String getKeyFile(){
+    return key_file;
     }
 
     public int getTransmitterThreadPoolSize() {
