@@ -19,13 +19,12 @@ import org.json.simple.JSONObject;
 public class TableforPQ extends javax.swing.JFrame implements Runnable {
 
     NodePriorityQueue queue;
-
+DefaultTableModel aModel;
     /**
      * Creates new form Tablefor
      *
      * @param queuep
      */
-
     /**
      * Creates new form Tablefor
      */
@@ -46,17 +45,16 @@ public class TableforPQ extends javax.swing.JFrame implements Runnable {
     public TableforPQ(NodePriorityQueue queuep) {
         initComponents();
         queue = queuep;
-
+         aModel = (DefaultTableModel) jTable1.getModel();
+        String cols[] = {"ID", "IPADDR", "PORT", "TIMESTAMP"};
+        aModel.setColumnIdentifiers(cols);
     }
 
     public void makeTable() {
-        DefaultTableModel aModel = (DefaultTableModel) jTable1.getModel();
-        String cols[] = {"ID", "IPADDR", "PORT", "TIMESTAMP"};
-        aModel.setColumnIdentifiers(cols);
+
         aModel.setRowCount(0);
 
         NodePriorityQueue tem = new NodePriorityQueue(queue);               //creates a temporay queue
-        
 
         while (tem.hasNext()) {
 

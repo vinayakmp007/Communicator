@@ -64,16 +64,18 @@ public class Executor {
         b = new Communicator(new Element(1234, 8124, 30000));
         c = new Communicator(new Element(1235, 8125, 30000));
         
-        b.getElement().setPasswordAndKeyFile(Constants.PASSWORD_KEY, Constants.KEYFILE);
-        
-        c.getElement().setPasswordAndKeyFile(Constants.PASSWORD_KEY, Constants.KEYFILE);
+       
         c.addNode(1234, System.currentTimeMillis(), 8124, InetAddress.getLocalHost().getHostAddress());
+        
         b.start();
         c.start();
         
         (new Thread((new TableforPQ(b.getPQ())))).start();
         (new Thread((new TableforPQ(c.getPQ())))).start();
         
+        for(int i=0;i<10000;i++){
+        c.addNode(i, System.currentTimeMillis(), 8124, InetAddress.getLocalHost().getHostAddress());
+        }
     }
 
     public static void main(String args[]) {

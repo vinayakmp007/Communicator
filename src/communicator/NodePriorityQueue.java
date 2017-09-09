@@ -26,21 +26,26 @@ public class NodePriorityQueue {                             //the class that ma
     }
 
     public void add(Node a) {
+        synchronized(this){
         pqueue.add(a);
-
+        }
     }
 
     public void remove(Node a) {
+        synchronized(this){
         pqueue.remove(a);
+        }
     }
 
     public Iterator<Node> iterator() {
         return pqueue.iterator();
     }
 
-    public void update(Node a) {
+    public  void update(Node a) {
+        synchronized(this){
         this.remove(a);
         this.add(a);
+    }
     }
 
     public Node[] toArray() {

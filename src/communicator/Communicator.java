@@ -32,14 +32,7 @@ public class Communicator {
      * @param args the command line arguments
      * @throws java.io.IOException
      */
-    public static void main(String[] args) throws IOException, InterruptedException, NoSuchAlgorithmException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException {
-        Communicator b;
-
-        b = new Communicator(new Element(1234, 8124, 30000));
-        b.start();
-        //Thread.sleep(3*10000);
-
-    }
+    
 
     public Communicator(Element elem) throws IOException, InterruptedException, NoSuchAlgorithmException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException {
         Nodes = new HashMap<>();
@@ -71,8 +64,8 @@ public class Communicator {
     }
     
     public void addNode(int id, long timestmp, int port, String ipaddr){
-    Nodes.put(id, new Node(id,timestmp,port,ipaddr));
-    queue.update(Nodes.get(id));
+       if(!Nodes.containsKey(id)) {Nodes.put(id, new Node(id,timestmp,port,ipaddr));
+    queue.update(Nodes.get(id));}
     
     }
 }

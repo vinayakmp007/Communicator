@@ -20,6 +20,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.HttpsURLConnection;
@@ -66,21 +67,17 @@ public class Sender implements Runnable {
 
     @SuppressWarnings("empty-statement")
     final void connect() throws MalformedURLException, IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException, KeyManagementException {
-        KeyStore ks = KeyStore.getInstance("JKS");
-
-        ks.load(new FileInputStream(element.getKeyFile()), element.getPassword().toCharArray());
-        KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
-        kmf.init(ks, element.getPassword().toCharArray());
-        SSLContext sc = SSLContext.getInstance("TLS");
-        sc.init(kmf.getKeyManagers(), null, null);
-
-        String urls = "https://" + to.getIPAddress() + ":" + to.getInputPort() + "/" + service;             //creates the url for connecting
+       
+        
+        String urls = "http://" + to.getIPAddress() + ":" + to.getInputPort() + "/" + service;             //creates the url for connecting
 
         URL url = new URL(urls);
         try {
-            HttpsURLConnection httpCon = (HttpsURLConnection) url.openConnection();
+            
+            
+            HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
             // connects to the service
-            httpCon.setSSLSocketFactory(sc.getSocketFactory());
+            
             httpCon.setDoOutput(true);
             httpCon.setRequestMethod("POST");
             httpCon.setUseCaches(false);
