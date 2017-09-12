@@ -67,17 +67,15 @@ public class Sender implements Runnable {
 
     @SuppressWarnings("empty-statement")
     final void connect() throws MalformedURLException, IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException, KeyManagementException {
-       
-        
+
         String urls = "http://" + to.getIPAddress() + ":" + to.getInputPort() + "/" + service;             //creates the url for connecting
 
         URL url = new URL(urls);
         try {
-            
-            
+
             HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
             // connects to the service
-            
+
             httpCon.setDoOutput(true);
             httpCon.setRequestMethod("POST");
             httpCon.setUseCaches(false);
@@ -121,19 +119,21 @@ public class Sender implements Runnable {
 
         JSONArray ja = new JSONArray();
         NodePriorityQueue tem = new NodePriorityQueue(queue);               //creates a temporay queue
-
+        
         while (tem.hasNext()) {
 
             JSONObject temp = new JSONObject();
             Node t = (Node) tem.next();
-            if (t.getTimestamp() < (System.currentTimeMillis()) - element.wait_till_dead) {
-                break;            // dead if they are  old 
+            if (t.getTimestamp() < (System.currentTimeMillis() - element.getWaitTillDeadmillis())) {
+                break;            // rest are dead if they are  tooo old since it is ordered queue
             }
-            temp.put("ID", Integer.toString(t.getIdentifier()));
-            temp.put("IPADDR", t.getIPAddress());
-            temp.put("IPORT", Integer.toString(t.getInputPort()));
-            temp.put("TIME", Long.toString(t.getTimestamp()));
-            ja.add(temp);
+            if ((Math.random() < element.getProbablityToGetSelected())) {              //randomy select wheither the details of node should be transmitted
+                temp.put("ID", Integer.toString(t.getIdentifier()));
+                temp.put("IPADDR", t.getIPAddress());
+                temp.put("IPORT", Integer.toString(t.getInputPort()));
+                temp.put("TIME", Long.toString(t.getTimestamp()));
+                ja.add(temp);
+            }
         }
 
         return ja;

@@ -28,6 +28,8 @@ public class Communicator {
     Transmitter trns;
     Element ele;
     Thread t2;
+    
+;
     /**
      * @param args the command line arguments
      * @throws java.io.IOException

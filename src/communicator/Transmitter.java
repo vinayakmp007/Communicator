@@ -46,24 +46,23 @@ public class Transmitter implements Runnable {
             int i = 0;
             while (tem.hasNext()) {
                 i++;
-                
+
                 Node t = (Node) tem.next();
                 if (t.getTimestamp() < (System.currentTimeMillis()) - elem.getWaitTillSendmillis()) {
                     break;            // ignore if they are 35 second  old or more
                 }
+                if ((Math.random() < elem.getProbablityToGetTransmittedTo())) {
+                    try {
+                        worker = new Sender(elem, t, "heartbeat", node_pqueue, node_data);
+                        executor.execute(worker);
 
-                try {
-                    worker = new Sender(elem, t, "heartbeat", node_pqueue, node_data);
-                    executor.execute(worker);
+                    } catch (Exception ex) {
+                        Logger.getLogger(Transmitter.class.getName()).log(Level.SEVERE, null, ex);
+                        ex.printStackTrace();
 
-                } catch (Exception ex) {
-                    Logger.getLogger(Transmitter.class.getName()).log(Level.SEVERE, null, ex);
-                    ex.printStackTrace();
-                    
+                    }
 
                 }
-
-               
 
             }
 

@@ -68,7 +68,7 @@ public class NodePriorityQueue {                             //the class that ma
     }
 
     public Node next() {
-
-        return pqueue.poll();
+    if(!hasNext()) throw new NullPointerException("No more element present in the queue");
+      return pqueue.poll();
     }
 }

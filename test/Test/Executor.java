@@ -23,17 +23,17 @@ import java.util.logging.Logger;
  */
 public class Executor {
     
-    public void testone() {
+    public static void test1() {
         
         try {
             Communicator b, c, d, e, f, g;
             
-            b = new Communicator(new Element(1234, 8124, 30000));
-            c = new Communicator(new Element(1235, 8125, 30000));
-            d = new Communicator(new Element(1236, 8126, 30000));
-            e = new Communicator(new Element(1237, 8127, 30000));
-            f = new Communicator(new Element(1238, 8128, 30000));
-            g = new Communicator(new Element(1239, 8129, 30000));
+            b = new Communicator(new Element(1234, 8124, 3000));
+            c = new Communicator(new Element(1235, 8125, 3000));
+            d = new Communicator(new Element(1236, 8126, 3000));
+            e = new Communicator(new Element(1237, 8127, 3000));
+            f = new Communicator(new Element(1238, 8128, 3000));
+            g = new Communicator(new Element(1239, 8129, 3000));
             
             b.start();
             d.start();
@@ -41,6 +41,12 @@ public class Executor {
             e.start();
             f.start();
             g.start();
+            
+            c.addNode(1234, System.currentTimeMillis(), 8124, InetAddress.getLocalHost().getHostAddress());
+            c.addNode(1236, System.currentTimeMillis(), 8126, InetAddress.getLocalHost().getHostAddress());
+            c.addNode(1237, System.currentTimeMillis(), 8127, InetAddress.getLocalHost().getHostAddress());
+            c.addNode(1238, System.currentTimeMillis(), 8128, InetAddress.getLocalHost().getHostAddress());
+            c.addNode(1239, System.currentTimeMillis(), 8129, InetAddress.getLocalHost().getHostAddress());
             
             (new Thread((new TableforPQ(b.getPQ())))).start();
             (new Thread((new TableforPQ(c.getPQ())))).start();
@@ -61,11 +67,11 @@ public class Executor {
     
     public static void test2() throws IOException, InterruptedException, NoSuchAlgorithmException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException {
         Communicator b, c;
-        b = new Communicator(new Element(1234, 8124, 30000));
+        b = new Communicator(new Element(2234, 7234, 30000));
         c = new Communicator(new Element(1235, 8125, 30000));
         
        
-        c.addNode(1234, System.currentTimeMillis(), 8124, InetAddress.getLocalHost().getHostAddress());
+        c.addNode(2234, System.currentTimeMillis(), 7234, InetAddress.getLocalHost().getHostAddress());
         
         b.start();
         c.start();
@@ -73,8 +79,8 @@ public class Executor {
         (new Thread((new TableforPQ(b.getPQ())))).start();
         (new Thread((new TableforPQ(c.getPQ())))).start();
         
-        for(int i=0;i<10000;i++){
-        c.addNode(i, System.currentTimeMillis(), 8124, InetAddress.getLocalHost().getHostAddress());
+        for(int i=0;i<2000;i++){
+        c.addNode(i, System.currentTimeMillis(), i+8000, InetAddress.getLocalHost().getHostAddress());
         }
     }
 
@@ -104,7 +110,7 @@ public class Executor {
 
         /* Create and display the form */
         try {
-            test2();
+            test1();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

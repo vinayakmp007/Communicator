@@ -55,7 +55,7 @@ DefaultTableModel aModel;
         aModel.setRowCount(0);
 
         NodePriorityQueue tem = new NodePriorityQueue(queue);               //creates a temporay queue
-
+        
         while (tem.hasNext()) {
 
             Node t = (Node) tem.next();
