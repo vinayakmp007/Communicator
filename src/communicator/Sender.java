@@ -95,6 +95,7 @@ public class Sender implements Runnable {
 
             OutputStream os = httpCon.getOutputStream();
             try (OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8")) {
+                //System.out.println(json);
                 osw.write(json.toString());
                 osw.flush();
                 osw.close();
@@ -105,7 +106,6 @@ public class Sender implements Runnable {
 
             for (int c; (c = in.read()) >= 0;);
 
-            httpCon.connect();
             httpCon.disconnect();
         } catch (ConnectException ec) {                   //Need more functinalities here
 
@@ -119,7 +119,7 @@ public class Sender implements Runnable {
 
         JSONArray ja = new JSONArray();
         NodePriorityQueue tem = new NodePriorityQueue(queue);               //creates a temporay queue
-        
+
         while (tem.hasNext()) {
 
             JSONObject temp = new JSONObject();

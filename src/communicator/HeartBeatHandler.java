@@ -72,7 +72,7 @@ public class HeartBeatHandler implements HttpHandler, Handler {
                 updateTable();
             } catch (Exception ex) {
                 Logger.getLogger(HeartBeatHandler.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.print("parseerror"+req_body);
+                System.out.print("parseerror" + req_body);
             }
 
         } else {

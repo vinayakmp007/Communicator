@@ -22,30 +22,30 @@ public class NodePriorityQueue {                             //the class that ma
     }
 
     public NodePriorityQueue(NodePriorityQueue qu) {
-        this.pqueue = new PriorityQueue(qu.pqueue);                    //TODO change implmentation
+        this.pqueue = new PriorityQueue(qu.pqueue);                    //TODO change implmentation 
     }
 
-    public void add(Node a) {
-        synchronized(this){
-        pqueue.add(a);
-        }
+    public synchronized void add(Node a) {
+         
+            pqueue.add(a);
+        
     }
 
-    public void remove(Node a) {
-        synchronized(this){
-        pqueue.remove(a);
-        }
+    public synchronized void remove(Node a) {
+         
+            pqueue.remove(a);
+        
     }
 
     public Iterator<Node> iterator() {
         return pqueue.iterator();
     }
 
-    public  void update(Node a) {
-        synchronized(this){
-        this.remove(a);
-        this.add(a);
-    }
+    public synchronized void update(Node a) {
+         
+            this.remove(a);
+            this.add(a);
+        
     }
 
     public Node[] toArray() {
@@ -68,7 +68,9 @@ public class NodePriorityQueue {                             //the class that ma
     }
 
     public Node next() {
-    if(!hasNext()) throw new NullPointerException("No more element present in the queue");
-      return pqueue.poll();
+        if (!hasNext()) {
+            throw new NullPointerException("No more element present in the queue");
+        }
+        return pqueue.poll();
     }
 }

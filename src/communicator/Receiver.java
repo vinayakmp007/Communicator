@@ -20,7 +20,6 @@ import java.security.cert.CertificateException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
 /**
  *
  * @author vinayak
@@ -35,7 +34,6 @@ public class Receiver {
     Map<Integer, Node> node_data;                    //data structers to store nodes
     NodePriorityQueue node_pqueue;                  //data structure to store nodes in the sorted order
     ExecutorService executor;
-    
 
     public Receiver(Element m, Map<Integer, Node> t, NodePriorityQueue b) {
         node_data = t;
@@ -54,7 +52,6 @@ public class Receiver {
     public final void setServer() throws IOException, NoSuchAlgorithmException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException {
 
         server = HttpServer.create(new InetSocketAddress(port_no), 0);
-        
 
         heartbthand = new HeartBeatHandler(node_data, node_pqueue);
         executor = Executors.newFixedThreadPool(elem.getReceiverThreadPoolSize());

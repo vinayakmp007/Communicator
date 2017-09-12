@@ -28,8 +28,8 @@ public class Communicator {
     Transmitter trns;
     Element ele;
     Thread t2;
-    
-;
+
+    ;
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
@@ -39,11 +39,10 @@ public class Communicator {
     public Communicator(Element elem) throws IOException, InterruptedException, NoSuchAlgorithmException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException {
         Nodes = new HashMap<>();
         queue = new NodePriorityQueue();
-        ele=elem;
+        ele = elem;
         rcv = new Receiver(elem, Nodes, queue);
         trns = new Transmitter(elem, Nodes, queue);
         t2 = new Thread(trns);
-        
 
     }
 
@@ -59,15 +58,18 @@ public class Communicator {
         System.out.println("hello");
         rcv.start();
         t2.start();
-        
+
     }
-    public Element getElement(){
-    return ele;
+
+    public Element getElement() {
+        return ele;
     }
-    
-    public void addNode(int id, long timestmp, int port, String ipaddr){
-       if(!Nodes.containsKey(id)) {Nodes.put(id, new Node(id,timestmp,port,ipaddr));
-    queue.update(Nodes.get(id));}
-    
+
+    public void addNode(int id, long timestmp, int port, String ipaddr) {
+        if (!Nodes.containsKey(id)) {
+            Nodes.put(id, new Node(id, timestmp, port, ipaddr));
+            queue.update(Nodes.get(id));
+        }
+
     }
 }

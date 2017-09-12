@@ -36,8 +36,8 @@ arguments
         this.input_port_no = inputport;
         this.heartbeat_in_ms = heartbeat_in_ms;
         send_threadpoolsize = 5;                   //default threadpool size is 5 
-        wait_till_send = 2 * this.heartbeat_in_ms;                  //default value is 30 
-        wait_till_dead = 3 * this.heartbeat_in_ms;                  //default value is 50
+        wait_till_send = 3 * this.heartbeat_in_ms;                  //default value is 30 
+        wait_till_dead = 5 * this.heartbeat_in_ms;                  //default value is 50
         rcv_threadpoolsize = 5;
         probablitiy_to_get_selected = .6;
         probablitiy_to_get_transmitted_to = .6;

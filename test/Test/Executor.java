@@ -22,32 +22,32 @@ import java.util.logging.Logger;
  * @author vinayak
  */
 public class Executor {
-    
+
     public static void test1() {
-        
+
         try {
             Communicator b, c, d, e, f, g;
-            
+
             b = new Communicator(new Element(1234, 8124, 3000));
             c = new Communicator(new Element(1235, 8125, 3000));
             d = new Communicator(new Element(1236, 8126, 3000));
             e = new Communicator(new Element(1237, 8127, 3000));
             f = new Communicator(new Element(1238, 8128, 3000));
             g = new Communicator(new Element(1239, 8129, 3000));
-            
+
             b.start();
             d.start();
             c.start();
             e.start();
             f.start();
             g.start();
-            
+
             c.addNode(1234, System.currentTimeMillis(), 8124, InetAddress.getLocalHost().getHostAddress());
             c.addNode(1236, System.currentTimeMillis(), 8126, InetAddress.getLocalHost().getHostAddress());
             c.addNode(1237, System.currentTimeMillis(), 8127, InetAddress.getLocalHost().getHostAddress());
             c.addNode(1238, System.currentTimeMillis(), 8128, InetAddress.getLocalHost().getHostAddress());
             c.addNode(1239, System.currentTimeMillis(), 8129, InetAddress.getLocalHost().getHostAddress());
-            
+
             (new Thread((new TableforPQ(b.getPQ())))).start();
             (new Thread((new TableforPQ(c.getPQ())))).start();
             (new Thread((new TableforPQ(d.getPQ())))).start();
@@ -62,26 +62,38 @@ public class Executor {
             Logger.getLogger(Executor.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
-        
+
     }
-    
+
     public static void test2() throws IOException, InterruptedException, NoSuchAlgorithmException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException {
         Communicator b, c;
         b = new Communicator(new Element(2234, 7234, 30000));
         c = new Communicator(new Element(1235, 8125, 30000));
-        
-       
+
         c.addNode(2234, System.currentTimeMillis(), 7234, InetAddress.getLocalHost().getHostAddress());
-        
+
         b.start();
         c.start();
-        
+
         (new Thread((new TableforPQ(b.getPQ())))).start();
         (new Thread((new TableforPQ(c.getPQ())))).start();
-        
-        for(int i=0;i<2000;i++){
-        c.addNode(i, System.currentTimeMillis(), i+8000, InetAddress.getLocalHost().getHostAddress());
+
+        for (int i = 0; i < 2000; i++) {
+            c.addNode(i, System.currentTimeMillis(), i + 8000, InetAddress.getLocalHost().getHostAddress());
         }
+    }
+
+    public static void test3() throws IOException, NoSuchAlgorithmException, InterruptedException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException {
+        int i = 0;
+        Communicator b = null;
+        for (i = 0; i < 100; i++) {
+
+            b = new Communicator(new Element(i, i + 8000, 10000));
+            b.addNode(0, System.currentTimeMillis(), 8000, InetAddress.getLocalHost().getHostAddress());
+            b.start();
+        }
+        (new Thread((new TableforPQ(b.getPQ())))).start();
+
     }
 
     public static void main(String args[]) {
@@ -110,11 +122,11 @@ public class Executor {
 
         /* Create and display the form */
         try {
-            test1();
+            test3();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        
+
     }
-    
+
 }
