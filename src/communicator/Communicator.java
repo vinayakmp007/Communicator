@@ -65,11 +65,14 @@ public class Communicator {
         return ele;
     }
 
-    public void addNode(int id, long timestmp, int port, String ipaddr) {
+    public synchronized void addNode(int id, long timestmp, int port, String ipaddr) throws Exception {
+        if(ele.getIdentifier()!=id){  //checks whether this elemnt is being added to itself
         if (!Nodes.containsKey(id)) {
             Nodes.put(id, new Node(id, timestmp, port, ipaddr));
             queue.update(Nodes.get(id));
         }
 
+    }
+       // else throw new Exception("Cant add itself to the Node list.Try another identifier\nThe identifier "+id+ "is the current node");
     }
 }

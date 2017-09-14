@@ -53,7 +53,7 @@ public class Receiver {
 
         server = HttpServer.create(new InetSocketAddress(port_no), 0);
 
-        heartbthand = new HeartBeatHandler(node_data, node_pqueue);
+        heartbthand = new HeartBeatHandler(elem,node_data, node_pqueue);
         executor = Executors.newFixedThreadPool(elem.getReceiverThreadPoolSize());
         server.createContext("/heartbeat", heartbthand);
         server.setExecutor(executor);
