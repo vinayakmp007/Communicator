@@ -87,7 +87,7 @@ public class HeartBeatHandler implements HttpHandler, Handler {
 
     void bodyToJSON() throws ParseException {                          //converts rewuest body to json
         if (req_body.isEmpty()) {
-            throw new NullPointerException("Request Body is empty");
+            throw new NullPointerException("Request Body is empty\n");
         }
 
         JSONParser parser = new JSONParser();               //obtain data from JSON string

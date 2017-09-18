@@ -65,7 +65,7 @@ public class Executor {
 
     }
 
-    public static void test2() throws IOException, InterruptedException, NoSuchAlgorithmException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException {
+    public static void test2() throws IOException, InterruptedException, NoSuchAlgorithmException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException, Exception {
         Communicator b, c;
         b = new Communicator(new Element(2234, 7234, 30000));
         c = new Communicator(new Element(1235, 8125, 30000));
@@ -83,7 +83,7 @@ public class Executor {
         }
     }
 
-    public static void test3() throws IOException, NoSuchAlgorithmException, InterruptedException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException {
+    public static void test3() throws IOException, NoSuchAlgorithmException, InterruptedException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException, Exception {
         int i = 0;
         Communicator b = null;
         for (i = 0; i < 100; i++) {
@@ -122,7 +122,7 @@ public class Executor {
 
         /* Create and display the form */
         try {
-            test3();
+            test1();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
