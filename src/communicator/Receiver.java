@@ -34,7 +34,12 @@ public class Receiver {
     Map<Integer, Node> node_data;                    //data structers to store nodes
     NodePriorityQueue node_pqueue;                  //data structure to store nodes in the sorted order
     ExecutorService executor;
-
+/**
+ * 
+ * @param m Element object
+ * @param t Map for id to Node
+ * @param b  NodePriottity object
+ */
     public Receiver(Element m, Map<Integer, Node> t, NodePriorityQueue b) {
         node_data = t;
         node_pqueue = b;
@@ -42,13 +47,33 @@ public class Receiver {
         port_no = m.getInputPort();
 
     }
-
+/**
+ * Starts the server
+ * <br>
+ * This function starts reciever server at port specified in Element object
+ * @throws IOException
+ * @throws NoSuchAlgorithmException
+ * @throws CertificateException
+ * @throws KeyStoreException
+ * @throws UnrecoverableKeyException
+ * @throws KeyManagementException 
+ */
     public void start() throws IOException, NoSuchAlgorithmException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException {
         setServer();
 
         startServer();
     }
-
+/**
+ * Configures the server
+ * <br>
+ * Configures the threadpool and request handlers
+ * @throws IOException
+ * @throws NoSuchAlgorithmException
+ * @throws CertificateException
+ * @throws KeyStoreException
+ * @throws UnrecoverableKeyException
+ * @throws KeyManagementException 
+ */
     public final void setServer() throws IOException, NoSuchAlgorithmException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException {
 
         server = HttpServer.create(new InetSocketAddress(port_no), 0);
@@ -59,12 +84,20 @@ public class Receiver {
         server.setExecutor(executor);
 
     }
-
+/**
+ * Starts the server
+ * <br>
+ * The server starts receiving at the port.The setServer() method should be invoked before this method is invoked
+ * @throws IOException 
+ */
     public final void startServer() throws IOException {
         server.start();
 
     }
-
+/**
+ * This stops the server from receiving information from other nodes
+ * @throws IOException 
+ */
     public final void stopServer() throws IOException {
         server.stop(port_no);
 
