@@ -24,7 +24,7 @@ public class Element {                 //this class used by every individual sys
     int rcv_threadpoolsize;
     String myipaddr;
     double probablitiy_to_get_selected, probablitiy_to_get_transmitted_to;
-
+    boolean dynamic_ip;
     public Element(int identifier, int inputport, long heartbeat_in_ms) throws UnknownHostException {
         /*
 arguments 
@@ -41,6 +41,7 @@ arguments
         rcv_threadpoolsize = 5;
         probablitiy_to_get_selected = .6;
         probablitiy_to_get_transmitted_to = .6;
+        dynamic_ip=true;
     }
 
     public int getIdentifier() {
@@ -112,7 +113,15 @@ arguments
     }
 
     public String getHostIP() throws UnknownHostException {
-        myipaddr = InetAddress.getLocalHost().getHostAddress();
+        if(dynamic_ip)
+        {
+            myipaddr = InetAddress.getLocalHost().getHostAddress();
+                return myipaddr;
+        }
         return myipaddr;
+    }
+    public void setHostIP(String ip) throws UnknownHostException {
+        dynamic_ip=false;
+        myipaddr=ip;
     }
 }
