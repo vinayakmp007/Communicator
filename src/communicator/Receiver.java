@@ -35,10 +35,10 @@ public class Receiver {
     NodePriorityQueue node_pqueue;                  //data structure to store nodes in the sorted order
     ExecutorService executor;
 /**
- * 
+ * Creates a Receiver object
  * @param m Element object
  * @param t Map for id to Node
- * @param b  NodePriottity object
+ * @param b  NodePriority object
  */
     public Receiver(Element m, Map<Integer, Node> t, NodePriorityQueue b) {
         node_data = t;
@@ -51,14 +51,9 @@ public class Receiver {
  * Starts the server
  * <br>
  * This function starts reciever server at port specified in Element object
- * @throws IOException
- * @throws NoSuchAlgorithmException
- * @throws CertificateException
- * @throws KeyStoreException
- * @throws UnrecoverableKeyException
- * @throws KeyManagementException 
+ * @throws IOException 
  */
-    public void start() throws IOException, NoSuchAlgorithmException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException {
+    public void start() throws IOException{
         setServer();
 
         startServer();
@@ -67,14 +62,9 @@ public class Receiver {
  * Configures the server
  * <br>
  * Configures the threadpool and request handlers
- * @throws IOException
- * @throws NoSuchAlgorithmException
- * @throws CertificateException
- * @throws KeyStoreException
- * @throws UnrecoverableKeyException
- * @throws KeyManagementException 
+ * @throws IOException 
  */
-    public final void setServer() throws IOException, NoSuchAlgorithmException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException {
+    public final void setServer() throws IOException {
 
         server = HttpServer.create(new InetSocketAddress(port_no), 0);
 
