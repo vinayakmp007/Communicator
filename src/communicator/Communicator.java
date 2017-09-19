@@ -45,6 +45,16 @@ public class Communicator {
         t2 = new Thread(trns);
 
     }
+    public boolean containsId(int id){
+    if(Nodes.containsKey(id))return true;
+    return false;
+    }
+    public Node getNodeWithId(int id){
+    if(containsId(id)){
+    return Nodes.get(id);                                //returns the current node to the caller not the copy 
+    }
+    return null;
+    }
 
     public NodePriorityQueue getPQ() {
         return queue;

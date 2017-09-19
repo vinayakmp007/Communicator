@@ -57,5 +57,12 @@ public class Node {                         //this is used represent the other n
         ipaddress = ipaddr;
 
     }
+     public Node(Node node) {
+      this.identifier=node.identifier;
+      this.input_port=node.input_port;
+      this.ipaddress=node.ipaddress;
+      this.milli_timestamp=node.milli_timestamp;
+
+    }
 
 }
