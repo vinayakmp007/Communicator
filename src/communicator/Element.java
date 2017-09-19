@@ -5,8 +5,12 @@
  */
 package communicator;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Enumeration;
 
 /**
  *
@@ -112,10 +116,10 @@ arguments
         return sending_interval;
     }
 
-    public String getHostIP() throws UnknownHostException {
+    public String getHostIP() throws UnknownHostException, SocketException {
         if(dynamic_ip)
         {
-            myipaddr = InetAddress.getLocalHost().getHostAddress();
+            myipaddr = getCurrentIp();
                 return myipaddr;
         }
         return myipaddr;
@@ -124,4 +128,25 @@ arguments
         dynamic_ip=false;
         myipaddr=ip;
     }
+    public static String getCurrentIp() throws UnknownHostException, SocketException {                  //Copied from stack overflow
+            
+                Enumeration<NetworkInterface> networkInterfaces = NetworkInterface
+                        .getNetworkInterfaces();
+                while (networkInterfaces.hasMoreElements()) {
+                    NetworkInterface ni = (NetworkInterface) networkInterfaces
+                            .nextElement();
+                    Enumeration<InetAddress> nias = ni.getInetAddresses();
+                    while(nias.hasMoreElements()) {
+                        InetAddress ia= (InetAddress) nias.nextElement();
+                        if (!ia.isLinkLocalAddress() 
+                         && !ia.isLoopbackAddress()
+                         && ia instanceof Inet4Address) {
+                            return ia.getHostAddress();
+                        }
+                    }
+                }
+            
+            return InetAddress.getLocalHost().getHostAddress();
+        }
+    
 }
