@@ -5,13 +5,26 @@
  */
 package communicator;
 
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import java.io.IOException;
 import java.util.*;
 
 /**
  *
  * @author vinayak
  */
-public interface Handler {
+public class Handler implements HttpHandler {
+
+    Map<Integer, Node> node_data;
+    NodePriorityQueue queue;
+    Element element;
+
+    public Handler(Element element, Map<Integer, Node> t, NodePriorityQueue b) {
+        node_data = t;
+        queue = b;
+        this.element = element;
+    }
 
     public static Map<String, String> queryToMap(String query) {             //found this code on the internet
         Map<String, String> result = new HashMap<>();             //splits the queries and makes a key value pair
@@ -27,5 +40,20 @@ public interface Handler {
             }
         }
         return result;
+    }
+
+    @Override
+    public void handle(HttpExchange con) throws IOException {
+        String path = con.getRequestURI().getPath();
+        switch (path) {
+
+            case "/heartbeat":
+                HeartBeatHandler heartbthand = new HeartBeatHandler(element, node_data, queue);
+                heartbthand.handle(con);
+
+                break;
+            default:
+                System.out.println(path);
+        }
     }
 }

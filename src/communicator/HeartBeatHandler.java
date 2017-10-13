@@ -22,7 +22,7 @@ import org.json.simple.parser.JSONParser;
  * @author vinayak
  */
 //TODO handle the triler part of the request body
-public class HeartBeatHandler implements HttpHandler, Handler {
+public class HeartBeatHandler implements HttpHandler {
 
     Map<String, String> param = new HashMap<>();
     Map<String, String[]> req_headr = new HashMap<>();
@@ -42,8 +42,8 @@ public class HeartBeatHandler implements HttpHandler, Handler {
     }
 
     @Override
-    public synchronized void handle(HttpExchange con) throws IOException {
-       
+    public void handle(HttpExchange con) throws IOException {
+
         // param=Handler.queryToMap(con.getRequestURI().getQuery());
         time = System.currentTimeMillis();
         data_inpstream = con.getRequestBody();
@@ -51,14 +51,14 @@ public class HeartBeatHandler implements HttpHandler, Handler {
         byte tm, tmbuf[] = new byte[4096];
         char tmp;
         StringBuilder tembuf = new StringBuilder();
-        synchronized(this){
-        while ((tm = (byte) data_inpstream.read()) != -1) {
-            tmp = (char) tm;
-            tembuf.append(tmp);
+        synchronized (this) {
+            while ((tm = (byte) data_inpstream.read()) != -1) {
+                tmp = (char) tm;
+                tembuf.append(tmp);
 
+            }
+            req_body = tembuf.toString();
         }
-        req_body = tembuf.toString();
-    }
         String resp = "OK";
         byte[] response = resp.getBytes();                                   //Write the response
         con.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.length);
@@ -82,7 +82,7 @@ public class HeartBeatHandler implements HttpHandler, Handler {
         con.close();
         //  throw new IOException("not post");
     }
-    
+
     void bodyToJSON() throws ParseException {                          //converts rewuest body to json
         if (req_body.isEmpty()) {
             throw new NullPointerException("Request Body is empty\n");
