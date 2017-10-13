@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
 import java.util.Enumeration;
 
 /**
- *
+ *Every unique nodes need an element object to configure it.
  * @author vinayak
  */
 public class Element {                 //this class used by every individual system
@@ -29,7 +29,20 @@ public class Element {                 //this class used by every individual sys
     String myipaddr;
     double probablitiy_to_get_selected, probablitiy_to_get_transmitted_to;
     boolean dynamic_ip;
-    public Element(int identifier, int inputport, long heartbeat_in_ms) throws UnknownHostException {
+    /**
+     * creates an element object
+     * 
+     * <br>
+     * default sender threadpool size is 5
+     * <br>default receiver threadpool size is 5
+     * <br>default probability a nodes gets selected is .6
+     * <br>default probability a nodes gets transmitted is .6
+     * 
+     * @param identifier (unique)identfies nodes in the element
+     * @param inputport port number for accepting input http connections
+     * @param heartbeat_in_ms interval at which the node contacts other nodes in the network in milliseconds
+     */
+    public Element(int identifier, int inputport, long heartbeat_in_ms) {
         /*
 arguments 
 1)idenfifier 

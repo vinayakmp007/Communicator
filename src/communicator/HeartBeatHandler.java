@@ -42,8 +42,8 @@ public class HeartBeatHandler implements HttpHandler, Handler {
     }
 
     @Override
-    public void handle(HttpExchange con) throws IOException {
-
+    public synchronized void handle(HttpExchange con) throws IOException {
+       
         // param=Handler.queryToMap(con.getRequestURI().getQuery());
         time = System.currentTimeMillis();
         data_inpstream = con.getRequestBody();
@@ -51,13 +51,14 @@ public class HeartBeatHandler implements HttpHandler, Handler {
         byte tm, tmbuf[] = new byte[4096];
         char tmp;
         StringBuilder tembuf = new StringBuilder();
-
+        synchronized(this){
         while ((tm = (byte) data_inpstream.read()) != -1) {
             tmp = (char) tm;
             tembuf.append(tmp);
 
         }
         req_body = tembuf.toString();
+    }
         String resp = "OK";
         byte[] response = resp.getBytes();                                   //Write the response
         con.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.length);
@@ -81,7 +82,7 @@ public class HeartBeatHandler implements HttpHandler, Handler {
         con.close();
         //  throw new IOException("not post");
     }
-
+    
     void bodyToJSON() throws ParseException {                          //converts rewuest body to json
         if (req_body.isEmpty()) {
             throw new NullPointerException("Request Body is empty\n");

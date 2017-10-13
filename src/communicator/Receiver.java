@@ -12,11 +12,7 @@ import java.util.*;
 
 import com.sun.net.httpserver.HttpServer;
 
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -67,9 +63,10 @@ public class Receiver {
     public final void setServer() throws IOException {
 
         server = HttpServer.create(new InetSocketAddress(port_no), 0);
-
+        
         heartbthand = new HeartBeatHandler(elem,node_data, node_pqueue);
         executor = Executors.newFixedThreadPool(elem.getReceiverThreadPoolSize());
+        
         server.createContext("/heartbeat", heartbthand);
         server.setExecutor(executor);
 

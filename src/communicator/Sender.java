@@ -86,6 +86,7 @@ public class Sender implements Runnable {
             json.put("TRAILER", makeTrailer());
 
             OutputStream os = httpCon.getOutputStream();
+
             try (OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8")) {
                 //System.out.println(json);
                 osw.write(json.toString());
