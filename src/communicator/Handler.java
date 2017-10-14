@@ -45,7 +45,7 @@ public class Handler implements HttpHandler {
     @Override
     public void handle(HttpExchange con) throws IOException {
         String path = con.getRequestURI().getPath();
-        switch (path) {
+        switch (path) {                                    //TODO more improvements required like mapping to HttpHandler
 
             case "/heartbeat":
                 HeartBeatHandler heartbthand = new HeartBeatHandler(element, node_data, queue);

@@ -16,27 +16,27 @@ public class Node {                         //this is used represent the other n
     int input_port;
     String ipaddress;
 
-    public int getIdentifier() {
+    public synchronized int getIdentifier() {
         return identifier;
     }
 
-    public long getTimestamp() {
+    public synchronized long getTimestamp() {
         return milli_timestamp;
     }
 
-    public void setIdentifier(int i) {
+    public synchronized void setIdentifier(int i) {
         identifier = i;
     }
 
-    public void setTimestamp(long i) {
+    public synchronized void setTimestamp(long i) {
         milli_timestamp = i;
     }
 
-    public void setInputPort(int i) {
+    public synchronized void setInputPort(int i) {
         input_port = i;
     }
 
-    public void setIPAddress(String s) {
+    public synchronized void setIPAddress(String s) {
         ipaddress = s;
 
     }

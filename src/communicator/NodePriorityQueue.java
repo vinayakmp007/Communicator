@@ -26,15 +26,15 @@ public class NodePriorityQueue {                             //the class that ma
     }
 
     public synchronized void add(Node a) {
-         
-            pqueue.add(a);
-        
+
+        pqueue.add(a);
+
     }
 
     public synchronized void remove(Node a) {
-         
-            pqueue.remove(a);
-        
+
+        pqueue.remove(a);
+
     }
 
     public Iterator<Node> iterator() {
@@ -42,35 +42,40 @@ public class NodePriorityQueue {                             //the class that ma
     }
 
     public synchronized void update(Node a) {
-         
-            this.remove(a);
-            this.add(a);
-        
+
+        this.remove(a);
+        this.add(a);
+
     }
 
-    public Node[] toArray() {
+    public synchronized Node[] toArray() {
 
         return (Node[]) pqueue.toArray();
+
     }
 
-    public int size() {
+    public synchronized int size() {
 
         return pqueue.size();
+
     }
 
-    public boolean hasNext() {
+    public synchronized boolean hasNext() {
 
-        if (size() > 0) {
+        if (pqueue.size() > 0) {
             return true;
         } else {
             return false;
         }
+
     }
 
-    public Node next() {
-        if (!hasNext()) {
+    public synchronized Node next() {
+
+        if (pqueue.size() <= 0) {
             throw new NullPointerException("No more element present in the queue");
         }
         return pqueue.poll();
     }
+
 }
