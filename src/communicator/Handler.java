@@ -52,6 +52,9 @@ public class Handler implements HttpHandler {
                 heartbthand.handle(con);
 
                 break;
+            case "/requestall":
+                RequestAllHandler ra_handler = new RequestAllHandler(element, node_data, queue);
+                ra_handler.handle(con);
             default:
                 System.out.println(path);
         }

@@ -73,7 +73,7 @@ public RequestAllHandler(Element element, Map<Integer, Node> t, NodePriorityQueu
                                           //Write the response
         
         if (con.getRequestMethod().contentEquals("POST")) {
-            
+        resp=mapToString(node_data);    
             
         } else {
             System.out.println(con.getRequestMethod());
