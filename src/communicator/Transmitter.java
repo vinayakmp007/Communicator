@@ -5,6 +5,7 @@
  */
 package communicator;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -41,7 +42,7 @@ public class Transmitter implements Runnable {
 
             Runnable worker;
             int i = 0;
-            while (tem.hasNext()) {
+            while (tem.hasNext()) {                                                //make it a function .it creates hearbeat sender threads
                 i++;
 
                 Node t = (Node) tem.next();
@@ -70,6 +71,25 @@ public class Transmitter implements Runnable {
                 ex.printStackTrace();
             }
         }
+    }
+
+     void requestAll(int id) throws IOException {
+
+        Runnable worker;
+        if(node_data.containsKey(id)){
+        Node t = node_data.get(id);
+        worker = new Sender(elem, t, "requestall", node_pqueue, node_data);
+        executor.execute(worker);
+        }
+        else throw new NullPointerException("No node with given id present in the table");
+    }
+
+     void requestAll(Node t) throws IOException {
+
+        Runnable worker;
+        worker = new Sender(elem, t, "requestall", node_pqueue, node_data);
+        executor.execute(worker);
+
     }
 
 }

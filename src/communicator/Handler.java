@@ -55,6 +55,7 @@ public class Handler implements HttpHandler {
             case "/requestall":
                 RequestAllHandler ra_handler = new RequestAllHandler(element, node_data, queue);
                 ra_handler.handle(con);
+                break;
             default:
                 System.out.println(path);
         }

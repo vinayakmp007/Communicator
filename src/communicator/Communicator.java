@@ -43,15 +43,19 @@ public class Communicator {
         t2 = new Thread(trns);
 
     }
-    public boolean containsId(int id){
-    if(Nodes.containsKey(id))return true;
-    return false;
+
+    public boolean containsId(int id) {
+        if (Nodes.containsKey(id)) {
+            return true;
+        }
+        return false;
     }
-    public Node getNodeWithId(int id){
-    if(containsId(id)){
-    return Nodes.get(id);                                //returns the current node to the caller not the copy 
-    }
-    return null;
+
+    public Node getNodeWithId(int id) {
+        if (containsId(id)) {
+            return Nodes.get(id);                                //returns the current node to the caller not the copy 
+        }
+        return null;
     }
 
     public NodePriorityQueue getPQ() {
@@ -69,18 +73,26 @@ public class Communicator {
 
     }
 
+    public void requestAll(int id) throws IOException {
+        trns.requestAll(id);
+    }
+
+    public void requestAll(Node node) throws IOException {
+        trns.requestAll(node);
+    }
+
     public Element getElement() {
         return ele;
     }
 
     public synchronized void addNode(int id, long timestmp, int port, String ipaddr) throws Exception {
-        if(ele.getIdentifier()!=id){  //checks whether this elemnt is being added to itself
-        if (!Nodes.containsKey(id)) {
-            Nodes.put(id, new Node(id, timestmp, port, ipaddr));
-            queue.update(Nodes.get(id));
-        }
+        if (ele.getIdentifier() != id) {  //checks whether this elemnt is being added to itself
+            if (!Nodes.containsKey(id)) {
+                Nodes.put(id, new Node(id, timestmp, port, ipaddr));
+                queue.update(Nodes.get(id));
+            }
 
-    }
-       // else throw new Exception("Cant add itself to the Node list.Try another identifier\nThe identifier "+id+ "is the current node");
+        }
+        // else throw new Exception("Cant add itself to the Node list.Try another identifier\nThe identifier "+id+ "is the current node");
     }
 }

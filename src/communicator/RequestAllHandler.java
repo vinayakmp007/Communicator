@@ -29,6 +29,8 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -60,7 +62,7 @@ public RequestAllHandler(Element element, Map<Integer, Node> t, NodePriorityQueu
          byte tm;
         char tmp;
         StringBuilder tembuf = new StringBuilder();
-       
+       JSONObject jsonobj;
              data_inpstream = con.getRequestBody();
             while ((tm = (byte) data_inpstream.read()) != -1) {
                 tmp = (char) tm;
@@ -73,7 +75,9 @@ public RequestAllHandler(Element element, Map<Integer, Node> t, NodePriorityQueu
                                           //Write the response
         
         if (con.getRequestMethod().contentEquals("POST")) {
-        resp=mapToString(node_data);    
+            jsonobj=makeHeader();
+            jsonobj.put("NODES",mapToJSONArray(node_data));
+            resp=jsonobj.toJSONString();
             
         } else {
             System.out.println(con.getRequestMethod());
@@ -86,12 +90,12 @@ public RequestAllHandler(Element element, Map<Integer, Node> t, NodePriorityQueu
         con.getResponseBody().close();
         con.close();
     }
-    public static String mapToString(Map<Integer,Node> nodm){
+    public static JSONArray mapToJSONArray(Map<Integer,Node> nodm){
     String respon = null;
     JSONArray ja = new JSONArray();
     
     Map<Integer, Node> tm = new ConcurrentHashMap<>(nodm);
-        for (Node t : tm.values()) {
+        for (Node t : tm.values()) {                                               //can also use jsonobject.putall
             JSONObject temp = new JSONObject();
                 temp.put("ID", Integer.toString(t.getIdentifier()));
                 temp.put("IPADDR", t.getIPAddress());
@@ -99,8 +103,17 @@ public RequestAllHandler(Element element, Map<Integer, Node> t, NodePriorityQueu
                 temp.put("TIME", Long.toString(t.getTimestamp()));    
                 ja.add(temp);
         }
-        respon=ja.toJSONString();
-    return respon;
+        
+        
+    return ja;
     }
-
+    private JSONObject makeHeader() throws UnknownHostException, SocketException{
+    
+        JSONObject json = new JSONObject();
+        json.put("ID", Integer.toString(element.getIdentifier()));
+        json.put("IPADDR", element.getHostIP());
+        json.put("IPORT", Integer.toString(element.getInputPort()));
+        json.put("TIME", Long.toString(System.currentTimeMillis()));
+        return json;
+    }
 }
