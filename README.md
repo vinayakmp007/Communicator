@@ -1,5 +1,6 @@
 # Communicator
 A simple java API for analysing dead and live nodes in a network
+* Uses GOSSIP protocol
 * Uses HTTP
 * Uses JSON to transfer information
 
