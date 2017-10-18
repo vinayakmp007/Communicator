@@ -49,7 +49,7 @@ public class Transmitter implements Runnable {
                 if (t.getTimestamp() < (System.currentTimeMillis()) - elem.getWaitTillSendmillis()) {
                     break;            // ignore if they are 35 second  old or more
                 }
-                if ((Math.random() < elem.getProbablityToGetTransmittedTo())) {
+                if ((Math.random() < elem.getProbabilityToGetTransmittedTo())) {
                     try {
                         worker = new Sender(elem, t, "heartbeat", node_pqueue, node_data);
                         executor.execute(worker);

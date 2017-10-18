@@ -63,7 +63,7 @@ public class Sender implements Runnable {
     }
 
     @SuppressWarnings("empty-statement")
-    final void connect() throws MalformedURLException, IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException, KeyManagementException {
+    final void connect() throws MalformedURLException, IOException{
 
         String urls = "http://" + to.getIPAddress() + ":" + to.getInputPort() + "/" + service;             //creates the url for connecting
         time = System.currentTimeMillis();                                                             //the current time when the connection is made
@@ -169,7 +169,7 @@ public class Sender implements Runnable {
             if (t.getTimestamp() < (System.currentTimeMillis() - element.getWaitTillDeadmillis())) {
                 break;            // rest are dead if they are  tooo old since it is ordered queue
             }
-            if ((Math.random() < element.getProbablityToGetSelected())) {              //randomy select wheither the details of node should be transmitted
+            if ((Math.random() < element.getProbabilityToGetSelected())) {              //randomy select wheither the details of node should be transmitted
                 temp.put("ID", Integer.toString(t.getIdentifier()));
                 temp.put("IPADDR", t.getIPAddress());
                 temp.put("IPORT", Integer.toString(t.getInputPort()));
